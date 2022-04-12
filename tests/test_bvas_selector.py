@@ -12,11 +12,10 @@ else:
     torch.set_default_tensor_type(torch.DoubleTensor)
 
 
-def test_bvas_sampler(A=1000, duration=30, V=50, T=2000, regions=5, beta0=0.04, beta1=0.08,
-                      T_burnin=200, report_frequency=500, seed=1):
+def test_bvas_selector(A=500, T=2000, T_burnin=200, report_frequency=500,
+                       beta0=0.04, beta1=0.08, seed=1):
 
-    Y, Gamma = get_nb_data(num_alleles=A, duration=duration, num_variants=V, num_regions=regions,
-                           beta0=beta0, beta1=beta1, seed=seed)
+    Y, Gamma = get_nb_data(num_alleles=A, beta0=beta0, beta1=beta1, seed=seed)
 
     genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A))
     variant_names = ["VarA", "VarB", "VarC", "VarD", "VarE"]

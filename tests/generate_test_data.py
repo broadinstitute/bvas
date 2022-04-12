@@ -30,14 +30,14 @@ def compute_y_gamma(N, genotype, exact_prefactor):
     return Y, Gamma
 
 
-def get_nb_data(num_alleles=20, duration=20, num_variants=10, num_regions=10, N0=500,
-                R0=1.0, mutation_density=0.3, beta0=0.02, beta1=0.04, k=0.5, seed=0):
-
+def get_nb_data(num_alleles=500, duration=20, num_variants=50, num_regions=10, N0=500,
+                R0=1.0, mutation_density=0.3, beta0=0.04, beta1=0.08, k=0.5, seed=0):
+    """
+    Simple pandemic simulator for testing.
+    """
     torch.manual_seed(seed)
 
     genotype = Bernoulli(mutation_density).sample(sample_shape=(num_variants, num_alleles))
-    genotype[0:4, 0] = 1
-    genotype[2:6, 1] = 1
 
     N = N0 * torch.ones(num_regions, duration, num_variants)
 
