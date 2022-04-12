@@ -30,19 +30,22 @@ class BVASSampler(MCMCSampler):
     :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
         If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
         variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
-        Note that for a given choice of `alpha` and `beta` the expected number of covariates to include in the model
+        Note that for a given choice of `alpha` and `beta` the expected number of alleles to include in the model
         a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.  Also note that the mean number of
         alleles in the posterior can vary significantly from prior expectations, since the posterior is in
         effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
-    :param str device: Whether computations should be done on CPU ('cpu') or GPU ('gpu'). Defaults to 'cpu'.
+    :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.
     :param float explore: This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
         For expert users only.
+    :param float xi_target: This hyperparameter controls how often :math:`h` MCMC updates are made if :math:`h`
+        is a latent variable. Defaults to 0.2.
+    :param torch.Tensor genotype_matrix: A torch.Tensor of shape (num_variants, A) that encodes the genotype
+        of various viral variants. If included the sampler will compute variant-level growth rates during inference.
+        Defaults to None.
     """
     def __init__(self, Y, Gamma,
-                 S=5, nu_eff=1.0,
-                 tau=0.01, explore=5,
-                 xi_target=0.2,
+                 S=5, tau=100.0, nu_eff=1.0, explore=10.0, xi_target=0.2,
                  genotype_matrix=None):
 
         assert Y.ndim == 1 and Gamma.ndim == 2

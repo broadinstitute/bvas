@@ -9,8 +9,32 @@ from bvas.util import namespace_to_numpy
 
 class BVASSelector(object):
     r"""
+    Main analysis class for Bayesian Viral Allele Selection (BVAS).
+    Combines a Gaussian diffusion-based likelihood with Bayesian
+    Variable Selection. Uses `BVASSampler` under the hood to do MCMC
+    inference.
+
+    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
+        increments for each allele and where A is the number of alleles.
+    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
+        second moments of allele frequencies.
+    :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.
+    :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
+        If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
+        variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
+        Note that for a given choice of `alpha` and `beta` the expected number of alleles to include in the model
+        a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.  Also note that the mean number of
+        alleles in the posterior can vary significantly from prior expectations, since the posterior is in
+        effect a compromise between the prior and the observed data.
+    :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
+    :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.
+    :param torch.Tensor genotype_matrix: A torch.Tensor of shape (num_variants, A) that encodes the genotype
+        of various viral variants. If included the sampler will compute variant-level growth rates during inference.
+        Defaults to None.
+    :param list variant_names: A list of names of the variants specified by `genotype_matrix`. Must have the
+        same length as the leading dimension of `genotype_matrix`.
     """
-    def __init__(self, Y, Gamma, mutations, S,
+    def __init__(self, Y, Gamma, mutations, S=5.0,
                  tau=100.0, nu_eff=1.0,
                  genotype_matrix=None, variant_names=None):
 
