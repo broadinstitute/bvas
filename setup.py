@@ -1,0 +1,52 @@
+import re
+import sys
+
+from setuptools import find_packages, setup
+
+with open("bvas/__init__.py") as f:
+    for line in f:
+        match = re.match('^__version__ = "(.*)"$', line)
+        if match:
+            __version__ = match.group(1)
+            break
+
+try:
+    long_description = open("README.md", encoding="utf-8").read()
+except Exception as e:
+    sys.stderr.write("Failed to read README.md: {}\n".format(e))
+    sys.stderr.flush()
+    long_description = ""
+
+setup(
+    name="bvas",
+    version=__version__,
+    description="A library for bayesian viral gwas",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=find_packages(include=["bvas"]),
+    url="https://github.com/broadinstitute/bvas",
+    author="Martin Jankowiak",
+    author_email="mjankowi@broadinstitute.org",
+    install_requires=[
+        "torch>=1.9",
+        "pandas",
+    ],
+    extras_require={
+        "test": [
+            "isort>=5.9",
+            "flake8",
+            "pytest>=5.0",
+        ],
+    },
+    python_requires=">=3.8",
+    keywords="bayesian variable selection, viral dynamics",
+    license="Apache 2.0",
+    classifiers=[
+        "Intended Audience :: Developers",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: POSIX :: Linux",
+        "Operating System :: MacOS :: MacOS X",
+        "Programming Language :: Python :: 3.8",
+    ],
+)
