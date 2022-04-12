@@ -1,6 +1,6 @@
 from generate_test_data import get_nb_data
 
-from bvas import compute_y_gamma
+from bvas.simulate import compute_y_gamma
 
 
 def test_compute_y_gamma(A=10):
