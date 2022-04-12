@@ -1,18 +1,18 @@
 import numpy as np
 import pandas as pd
-from containers import StreamingSampleContainer
 from tqdm.contrib import tenumerate
 
 from bvas import BVASSampler
+from bvas.containers import StreamingSampleContainer
 from bvas.util import namespace_to_numpy
 
 
 class BVASSelector(object):
     r"""
     """
-    def __init(self, Y, Gamma, mutations, S,
-               tau=100.0, nu_eff=1.0,
-               genotype_matrix=None, variant_names=None):
+    def __init__(self, Y, Gamma, mutations, S,
+                 tau=100.0, nu_eff=1.0,
+                 genotype_matrix=None, variant_names=None):
 
         if Y.ndim != 1 or Gamma.ndim != 2:
             raise ValueError("Y and Gamma must be 1- and 2-dimensional, respectively.")

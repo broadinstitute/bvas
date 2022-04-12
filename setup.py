@@ -29,7 +29,8 @@ setup(
     author_email="mjankowi@broadinstitute.org",
     install_requires=[
         "torch>=1.9",
-        "pandas",
+        "pandas>=1.3",
+        "tqdm",
     ],
     extras_require={
         "test": [
