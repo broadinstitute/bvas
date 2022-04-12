@@ -31,8 +31,7 @@ def compute_y_gamma(N, genotype, exact_prefactor):
 
 
 def get_nb_data(num_alleles=500, duration=20, num_variants=50, num_regions=10, N0=500,
-                R0=1.0, mutation_density=0.3, beta0=0.04, beta1=0.08, k=0.5, seed=0,
-                return_N=False):
+                R0=1.0, mutation_density=0.3, beta0=0.04, beta1=0.08, k=0.5, seed=0):
     """
     Simple pandemic simulator for testing.
     """
@@ -49,9 +48,6 @@ def get_nb_data(num_alleles=500, duration=20, num_variants=50, num_regions=10, N
         N_prev = N[:, t - 1]
         total_count = k * N_prev
         N[:, t] = NegativeBinomial(total_count=total_count, logits=logits).sample()
-
-    if return_N:
-        return N, genotype
 
     exact_prefactor = (N0 * num_variants) / (1 / k + 1 / R0)
 

@@ -105,8 +105,8 @@ def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=Non
 
 
 def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10,
-                  N0=10 ** 4, N0_k=0.2, R0=1.0, mutation_density=0.25,
-                  k=0.1, seed=0, include_phi=True, sampling_rate=1, strategy='global-mean'):
+                  N0=10 ** 4, N0_k=10.0, R0=1.0, mutation_density=0.25,
+                  k=0.1, seed=0, include_phi=False, sampling_rate=1, strategy='global-mean'):
     """
     Simulate pandemic data using a discrete time Negative Binomial branching process.
 
@@ -118,14 +118,14 @@ def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10
         Defaults to 10000.
     :param float N0_k: Controls the dispersion of the Negative Binomial distribution that is used
         to sample the number of infected individuals at the first time step in each region.
-        Defaults to 0.2.
+        Defaults to 10.0.
     :param float R0: The basic reproduction number of the wild-type variant. Defaults to 1.0.
     :param float mutation_density: Controls the average number of non-wild-type mutations that
         appear in each viral variant. Defaults to 0.25.
     :param float k: Controls the dispersion of the Negative Binomial distribution that underlies
         the discrete time branching process. Defaults to 0.1.
     :param int seed: Sets the random number seed. Defaults to 0.
-    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation.
+    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation. Defauls to False.
     :param float sampling_rate: Controls the observation sampling rate, i.e. the percentage of
         infected individuals whose genomes are sequenced. Defaults to 1, i.e. 1%.
     :param str strategy: Strategy used for estimating the effective population size. Must be
