@@ -5,6 +5,9 @@ from torch.distributions import Bernoulli, NegativeBinomial
 
 
 def compute_y_gamma(N, genotype, exact_prefactor):
+    """
+    Compute Y and Gamma from time series of variant-level counts
+    """
     X = torch.matmul(N, genotype)  # num_regions duration num_alleles
     num_regions, duration, num_alleles = X.shape
     N_sum = N.sum(-1)  # num_regions duration
