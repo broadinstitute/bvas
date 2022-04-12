@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 import torch
 from common import assert_close
-from generate_data import get_nb_data
+from generate_test_data import get_nb_data
 from torch import zeros
 
 from bvas import BVASSampler

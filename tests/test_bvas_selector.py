@@ -1,19 +1,16 @@
 import numpy as np
 import torch
 from common import assert_close
-from generate_data import get_nb_data
+from generate_test_data import get_nb_data
 from torch.distributions import Bernoulli
 
 from bvas import BVASSelector
 
-if torch.cuda.is_available():
-    torch.set_default_tensor_type(torch.cuda.DoubleTensor)
-else:
-    torch.set_default_tensor_type(torch.DoubleTensor)
-
 
 def test_bvas_selector(A=500, T=2000, T_burnin=200, report_frequency=500,
                        beta0=0.04, beta1=0.08, seed=1):
+
+    torch.set_default_tensor_type(torch.DoubleTensor)
 
     Y, Gamma = get_nb_data(num_alleles=A, beta0=beta0, beta1=beta1, seed=seed)
 
