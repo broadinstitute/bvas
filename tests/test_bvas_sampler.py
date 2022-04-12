@@ -22,7 +22,7 @@ def test_bvas_sampler(A=1000, duration=30, V=50, T=2000, regions=5, beta0=0.04, 
     genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A))
 
     samples = []
-    sampler = BVASSampler(Y, Gamma, S=(0.1, 100.0), tau=10.0, gene_map=None, genotype_matrix=genotype_matrix)
+    sampler = BVASSampler(Y, Gamma, S=(0.1, 100.0), tau=10.0, genotype_matrix=genotype_matrix)
 
     for t, (burned, s) in enumerate(sampler.mcmc_chain(T=T, T_burnin=T_burnin, seed=seed)):
         if burned:

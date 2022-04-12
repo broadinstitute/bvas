@@ -18,11 +18,31 @@ from .util import (
 
 class BVASSampler(MCMCSampler):
     r"""
+    MCMC Sampler for Bayesian Viral Allele Selection (BVAS).
+    Combines a Gaussian diffusion-based likelihood with Bayesian
+    Variable Selection. Most users will not use this class directly
+    and will instead use `BVASSelector`.
+
+    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
+        increments for each allele and where A is the number of alleles.
+    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
+        second moments of allele frequencies.
+    :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
+        If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
+        variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
+        Note that for a given choice of `alpha` and `beta` the expected number of covariates to include in the model
+        a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.  Also note that the mean number of
+        alleles in the posterior can vary significantly from prior expectations, since the posterior is in
+        effect a compromise between the prior and the observed data.
+    :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
+    :param str device: Whether computations should be done on CPU ('cpu') or GPU ('gpu'). Defaults to 'cpu'.
+    :param float explore: This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
+        For expert users only.
     """
-    def __init__(self, Y, Gamma, S=5, nu_eff=1.0,
+    def __init__(self, Y, Gamma,
+                 S=5, nu_eff=1.0,
                  tau=0.01, explore=5,
-                 verbose_constructor=True, xi_target=0.2,
-                 gene_map=None,
+                 xi_target=0.2,
                  num_included_alleles=0,
                  genotype_matrix=None):
 
@@ -43,19 +63,6 @@ class BVASSampler(MCMCSampler):
         self.included_alleles = torch.arange(self.Asel, self.Asel + self.num_included_alleles,
                                              device=self.device, dtype=torch.int64)
         self.genotype_matrix = genotype_matrix
-
-        self.gene_map = gene_map
-        if gene_map is not None:
-            assert self.A == self.Asel
-            assert self.gene_map.size(-1) == self.A
-            self.gene_map_bins = self.gene_map.unique().size(-1)
-            assert self.gene_map.max() + 1 == self.gene_map_bins
-            gene_map = gene_map.expand(self.gene_map_bins, -1)
-            self.gene_map_lengths = ((gene_map - torch.arange(self.gene_map_bins).unsqueeze(-1)) == 0).sum(-1)
-        else:
-            self.gene_map = torch.zeros(self.Asel, device=self.device, dtype=torch.int64)
-            self.gene_map_bins = 1
-            self.gene_map_lengths = torch.tensor(self.Asel, device=self.device, dtype=torch.int64)
 
         self.uniform_dist = Uniform(0.0, Y.new_ones(1)[0])
 
@@ -85,13 +92,6 @@ class BVASSampler(MCMCSampler):
         self.explore = explore / self.Asel
         self.epsilon = 1.0e-18
 
-        if verbose_constructor:
-            s2 = " = ({}, {:.1f}, {:.3f}, {:.3f}, {})" if not isinstance(S, tuple) \
-                else " = ({}, ({:.1f}, {:.1f}), {:.3f}, {:.3f}, {})"
-            S = S if isinstance(S, tuple) else (S,)
-            s1 = "Initialized BVASSampler with (A, S, tau, nu_eff, A_included)"
-            print((s1 + s2).format(self.Asel, *S, self.tau, nu_eff, self.num_included_alleles))
-
     def initialize_sample(self, seed=None):
         if seed is not None:
             torch.manual_seed(seed)
@@ -100,7 +100,7 @@ class BVASSampler(MCMCSampler):
                                  add_prob=torch.zeros(self.Asel, device=self.device, dtype=self.dtype),
                                  _i_prob=torch.zeros(self.Asel, device=self.device, dtype=self.dtype),
                                  _active=torch.tensor([], device=self.device, dtype=torch.int64),
-                                 _idx=0, _log_h_ratio=self.log_h_ratio * torch.ones(self.Asel, device=self.device),
+                                 _idx=0, _log_h_ratio=self.log_h_ratio,
                                  weight=0,
                                  beta=torch.zeros(self.A, device=self.device, dtype=self.dtype))
         if self.num_included_alleles > 0:
@@ -206,8 +206,8 @@ class BVASSampler(MCMCSampler):
             Yt_active_loo_sq = 0.0
             log_det_active = torch.tensor(0.0, device=self.device, dtype=self.dtype)
 
-        log_odds_inactive = 0.5 * W_k_sq + log_det_inactive + sample._log_h_ratio[inactive]
-        log_odds_active = 0.5 * (Yt_active_sq - Yt_active_loo_sq) + log_det_active + sample._log_h_ratio[active]
+        log_odds_inactive = 0.5 * W_k_sq + log_det_inactive + sample._log_h_ratio
+        log_odds_active = 0.5 * (Yt_active_sq - Yt_active_loo_sq) + log_det_active + sample._log_h_ratio
 
         log_odds = self.Y.new_zeros(self.Asel)
         log_odds[inactive] = log_odds_inactive
@@ -249,10 +249,10 @@ class BVASSampler(MCMCSampler):
         return sample
 
     def sample_alpha_beta(self, sample):
-        num_active = torch.bincount(self.gene_map[sample.gamma], minlength=self.gene_map_bins)
-        num_inactive = self.gene_map_lengths - num_active
-        sample.h_alpha = self.h_alpha + num_active
-        sample.h_beta = self.h_beta + num_inactive
-        h = Beta(sample.h_alpha, sample.h_beta).sample()
-        sample._log_h_ratio = (torch.log(h) - torch.log1p(-h))[self.gene_map]
+        num_active = sample._active.size(-1)
+        num_inactive = self.A - num_active
+        sample.h_alpha = torch.tensor(self.h_alpha + num_active, device=self.device)
+        sample.h_beta = torch.tensor(self.h_beta + num_inactive, device=self.device)
+        h = Beta(sample.h_alpha, sample.h_beta).sample().item()
+        sample._log_h_ratio = math.log(h) - math.log(1.0 - h)
         return sample

@@ -16,7 +16,7 @@ def get_sample(gamma, log_h_ratio, num_included_alleles):
                              add_prob=zeros(A), _i_prob=zeros(A),
                              _idx=0, weight=0.0)
     sample._active = torch.nonzero(sample.gamma).squeeze(-1)
-    sample._log_h_ratio = log_h_ratio * torch.ones(A).double()
+    sample._log_h_ratio = log_h_ratio
     if num_included_alleles > 0:
         sample._activei = torch.cat([sample._active, torch.arange(A, A + num_included_alleles, dtype=torch.int64)])
     return sample

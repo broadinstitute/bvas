@@ -38,7 +38,7 @@ class BVASSelector(object):
 
         self.sampler = BVASSampler(Y, Gamma,
                                    nu_eff=nu_eff, S=S, tau=tau,
-                                   gene_map=None, explore=10,
+                                   explore=10,
                                    genotype_matrix=genotype_matrix)
 
     def run(self, T, T_burnin, seed=None):
