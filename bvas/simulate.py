@@ -4,9 +4,9 @@ import torch
 from torch.distributions import Bernoulli, Binomial, Multinomial, NegativeBinomial
 
 
-def _compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=None):
+def __compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=None):
     """
-    Helper function used in compute_y_gamma below.
+    Helper function used in _compute_y_gamma below.
     """
     assert strategy in ['global-median', 'global-mean', 'regional']
 
@@ -63,7 +63,7 @@ def _compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=No
     return Y, Gamma, nu_eff.flatten().data.cpu().numpy()
 
 
-def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=None):
+def _compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=None):
     """
     Function for computing Y and Gamma from time series of (simulated) variant-level counts.
 
@@ -86,11 +86,11 @@ def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=Non
         raise ValueError("strategy must be one of: global-mean, global-median, regional.")
 
     if phi is None:
-        return _compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=None)
+        return __compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=None)
     else:
-        Y, Gamma, nu_eff = _compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=None)
-        Y_phi, Gamma_cross, _ = _compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=phi)
-        _, Gamma_phi, _ = _compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=phi.pow(2.0))
+        Y, Gamma, nu_eff = __compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=None)
+        Y_phi, Gamma_cross, _ = __compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=phi)
+        _, Gamma_phi, _ = __compute_y_gamma(N, genotype, strategy=strategy, center=center, phi=phi.pow(2.0))
 
     A = genotype.size(-1)
     Gamma_full = Gamma.new_zeros(2 * A, 2 * A)
@@ -190,7 +190,7 @@ def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10
     if sampling_rate < 100:
         N = Binomial(total_count=N, probs=sampling_rate / 100.0).sample()
 
-    Y, Gamma, nu_eff = compute_y_gamma(N, genotype, strategy=strategy, center=0, phi=phi)
+    Y, Gamma, nu_eff = _compute_y_gamma(N, genotype, strategy=strategy, center=0, phi=phi)
 
     data = {'Y': Y}
     data['Gamma'] = Gamma
