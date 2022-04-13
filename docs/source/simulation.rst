@@ -1,4 +1,4 @@
 Simulation
 ==========
-.. automodule:: simulate
+.. automodule:: bvas.simulate
    :members:
