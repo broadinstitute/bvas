@@ -3,9 +3,9 @@ from types import SimpleNamespace
 
 import torch
 from torch import einsum, matmul, sigmoid
-from torch import triangular_solve as trisolve
 from torch.distributions import Beta, Categorical, Uniform
 from torch.linalg import norm
+from torch.linalg import solve_triangular as trisolve
 
 from .sampler import MCMCSampler
 from .util import (
@@ -129,9 +129,9 @@ class BVASSampler(MCMCSampler):
 
             L_active = safe_cholesky(Gamma_active)
 
-            Yt_active = trisolve(Y_active.unsqueeze(-1), L_active, upper=False)[0].squeeze(-1)
+            Yt_active = trisolve(L_active, Y_active.unsqueeze(-1), upper=False).squeeze(-1)
 
-            L_G_I_k = trisolve(nu * self.Gamma[active][:, inactive], L_active, upper=False)[0]
+            L_G_I_k = trisolve(L_active, nu * self.Gamma[active][:, inactive], upper=False)
             G_k_inv = Gamma_k - norm(L_G_I_k, dim=0).pow(2.0)
 
             W_k_sq = (torch.mv(L_G_I_k.t(), Yt_active) - Y_k).pow(2.0) / (G_k_inv + self.epsilon)
@@ -143,14 +143,14 @@ class BVASSampler(MCMCSampler):
             log_det_inactive = -0.5 * torch.log(Gamma_k / self.tau)
 
         if num_active > 0:
-            beta_active = trisolve(Yt_active.unsqueeze(-1), L_active.t(), upper=True)[0].squeeze(-1)
+            beta_active = trisolve(L_active.t(), Yt_active.unsqueeze(-1), upper=True).squeeze(-1)
             sample._beta_mean = self.Y.new_zeros(self.A)
             sample._beta_mean[active] = beta_active
 
             sample.beta = self.Y.new_zeros(self.A)
             sample.beta[active] = beta_active + \
-                trisolve(torch.randn(active.size(-1), 1, device=self.device, dtype=self.dtype),
-                         L_active, upper=False)[0].squeeze(-1)
+                trisolve(L_active, torch.randn(active.size(-1), 1, device=self.device, dtype=self.dtype),
+                         upper=False).squeeze(-1)
         elif num_active == 0:
             sample._beta_mean = self.Y.new_zeros(self.A)
             sample.beta = self.Y.new_zeros(self.A)

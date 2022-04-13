@@ -5,7 +5,7 @@ See https://github.com/pyro-ppl/pyro#installing for installation instructions.
 import pyro
 import pyro.distributions as dist
 import torch
-from torch import triangular_solve as trisolve
+from torch.linalg import solve_triangular as trisolve
 
 from bvas.util import safe_cholesky
 
@@ -35,7 +35,7 @@ def laplace_inference(Y, Gamma,
     A = Gamma.size(-1)
 
     L = safe_cholesky(Gamma, num_tries=10)
-    L_Y = trisolve(Y.unsqueeze(-1), L, upper=False)[0].squeeze(-1)
+    L_Y = trisolve(L, Y.unsqueeze(-1), upper=False).squeeze(-1)
 
     def model():
         beta = pyro.sample("beta", dist.Laplace(0.0, coef_scale * torch.ones(A)).to_event(1))

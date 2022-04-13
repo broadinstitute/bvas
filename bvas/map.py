@@ -1,5 +1,5 @@
 import torch
-from torch import triangular_solve as trisolve
+from torch.linalg import solve_triangular as trisolve
 
 from bvas.util import safe_cholesky
 
@@ -28,8 +28,8 @@ def map_inference(Y, Gamma, taus=[2 ** exponent for exponent in range(4, 16)]):
 
     for tau_reg in taus:
         L_tau = safe_cholesky(Gamma + tau_reg * torch.eye(Gamma.size(-1)).type_as(Gamma))
-        Yt = trisolve(Y.unsqueeze(-1), L_tau, upper=False)[0]
-        beta = trisolve(Yt, L_tau.t(), upper=True)[0].squeeze(-1)
+        Yt = trisolve(L_tau, Y.unsqueeze(-1), upper=False)
+        beta = trisolve(L_tau.t(), Yt, upper=True).squeeze(-1)
         results['map_{}'.format(tau_reg)] = {'beta': beta.data.cpu().numpy(),
                                              'tau_reg': tau_reg}
 
