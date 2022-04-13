@@ -28,7 +28,8 @@ setup(
     author="Martin Jankowiak",
     author_email="mjankowi@broadinstitute.org",
     install_requires=[
-        "torch>=1.9",
+        "torch>=1.10",
+        "pyro-ppl>=1.8.1",
         "pandas>=1.3",
         "tqdm",
     ],
