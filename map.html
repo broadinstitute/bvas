@@ -74,7 +74,7 @@
 <span id="map-inference"></span><h1>MAP Inference<a class="headerlink" href="#module-bvas.map" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bvas.map.map_inference">
-<span class="sig-prename descclassname"><span class="pre">bvas.map.</span></span><span class="sig-name descname"><span class="pre">map_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">taus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[16,</span> <span class="pre">32,</span> <span class="pre">64,</span> <span class="pre">128,</span> <span class="pre">256,</span> <span class="pre">512,</span> <span class="pre">1024,</span> <span class="pre">2048,</span> <span class="pre">4096,</span> <span class="pre">8192,</span> <span class="pre">16384,</span> <span class="pre">32768]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/map.html#map_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.map.map_inference" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bvas.map.</span></span><span class="sig-name descname"><span class="pre">map_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau_reg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/map.html#map_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.map.map_inference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use Maximum A Posteriori (MAP) inference and a diffusion-based likelihood to infer
 selection effects from genomic surveillance data. See reference [1] for details.</p>
 <p>References:</p>
@@ -90,13 +90,13 @@ Matthew R. McKay, John P. Barton.</p>
 increments for each allele and where A is the number of alleles.</p></li>
 <li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A, A) that encodes information about
 second moments of allele frequencies.</p></li>
-<li><p><strong>taus</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of floats encoding regularizers <cite>tau_reg</cite> to use in MAP inference, i.e. we run
-MAP once for each value of <cite>tau_reg</cite>. Note that this quantity is called <cite>gamma</cite> in reference [1].</p></li>
+<li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
+<li><p><strong>tau_reg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – A positive float <cite>tau_reg</cite> that serves as the regularizer in MAP inference
+along the lines of ridge regression. Note that this quantity is called <cite>gamma</cite> in reference [1].</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns dict</dt>
-<dd class="field-even"><p>Returns a dictionary of inferred selection coefficients beta, one for each value
-in <cite>taus</cite>.</p>
+<dt class="field-even">Returns pandas.DataFrame</dt>
+<dd class="field-even"><p>Returns a <cite>pd.DataFrame</cite> containing results of inference.</p>
 </dd>
 </dl>
 </dd></dl>

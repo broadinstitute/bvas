@@ -68,13 +68,15 @@
            <div itemprop="articleBody">
              
   <h1>Source code for bvas.map</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch.linalg</span> <span class="kn">import</span> <span class="n">solve_triangular</span> <span class="k">as</span> <span class="n">trisolve</span>
 
 <span class="kn">from</span> <span class="nn">bvas.util</span> <span class="kn">import</span> <span class="n">safe_cholesky</span>
 
 
-<div class="viewcode-block" id="map_inference"><a class="viewcode-back" href="../../map.html#bvas.map.map_inference">[docs]</a><span class="k">def</span> <span class="nf">map_inference</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">taus</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span> <span class="o">**</span> <span class="n">exponent</span> <span class="k">for</span> <span class="n">exponent</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">)]):</span>
+<div class="viewcode-block" id="map_inference"><a class="viewcode-back" href="../../map.html#bvas.map.map_inference">[docs]</a><span class="k">def</span> <span class="nf">map_inference</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">tau_reg</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Use Maximum A Posteriori (MAP) inference and a diffusion-based likelihood to infer</span>
 <span class="sd">    selection effects from genomic surveillance data. See reference [1] for details.</span>
@@ -89,22 +91,22 @@
 <span class="sd">        increments for each allele and where A is the number of alleles.</span>
 <span class="sd">    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about</span>
 <span class="sd">        second moments of allele frequencies.</span>
-<span class="sd">    :param list taus: A list of floats encoding regularizers `tau_reg` to use in MAP inference, i.e. we run</span>
-<span class="sd">        MAP once for each value of `tau_reg`. Note that this quantity is called `gamma` in reference [1].</span>
+<span class="sd">    :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.</span>
+<span class="sd">    :param float tau_reg: A positive float `tau_reg` that serves as the regularizer in MAP inference</span>
+<span class="sd">        along the lines of ridge regression. Note that this quantity is called `gamma` in reference [1].</span>
 
-<span class="sd">    :returns dict: Returns a dictionary of inferred selection coefficients beta, one for each value</span>
-<span class="sd">        in `taus`.</span>
+<span class="sd">    :returns pandas.DataFrame: Returns a `pd.DataFrame` containing results of inference.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">L_tau</span> <span class="o">=</span> <span class="n">safe_cholesky</span><span class="p">(</span><span class="n">Gamma</span> <span class="o">+</span> <span class="n">tau_reg</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Gamma</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">type_as</span><span class="p">(</span><span class="n">Gamma</span><span class="p">))</span>
+    <span class="n">Yt</span> <span class="o">=</span> <span class="n">trisolve</span><span class="p">(</span><span class="n">L_tau</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">upper</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">trisolve</span><span class="p">(</span><span class="n">L_tau</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">Yt</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">tau_reg</span> <span class="ow">in</span> <span class="n">taus</span><span class="p">:</span>
-        <span class="n">L_tau</span> <span class="o">=</span> <span class="n">safe_cholesky</span><span class="p">(</span><span class="n">Gamma</span> <span class="o">+</span> <span class="n">tau_reg</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Gamma</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">type_as</span><span class="p">(</span><span class="n">Gamma</span><span class="p">))</span>
-        <span class="n">Yt</span> <span class="o">=</span> <span class="n">trisolve</span><span class="p">(</span><span class="n">L_tau</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">upper</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">beta</span> <span class="o">=</span> <span class="n">trisolve</span><span class="p">(</span><span class="n">L_tau</span><span class="o">.</span><span class="n">t</span><span class="p">(),</span> <span class="n">Yt</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">results</span><span class="p">[</span><span class="s1">&#39;map_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tau_reg</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">beta</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
-                                             <span class="s1">&#39;tau_reg&#39;</span><span class="p">:</span> <span class="n">tau_reg</span><span class="p">}</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">mutations</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Beta&#39;</span><span class="p">])</span>
+    <span class="n">beta</span><span class="p">[</span><span class="s1">&#39;BetaAbs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">Beta</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;BetaAbs&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">beta</span><span class="p">[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">results</span></div>
+    <span class="k">return</span> <span class="n">beta</span><span class="p">[[</span><span class="s1">&#39;Beta&#39;</span><span class="p">,</span> <span class="s1">&#39;Rank&#39;</span><span class="p">]]</span></div>
 </pre></div>
 
            </div>
