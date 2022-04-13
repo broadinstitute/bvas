@@ -4,7 +4,7 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import torch
-from util import get_longest_ones_index
+from bvas.util import get_longest_ones_index
 
 
 def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
@@ -184,7 +184,7 @@ def main(args):
                  args.min_biweekly_samples,
                  args.strategy,
                  args.phi,
-                 args.filename)
+                 '.'.join(args.filename.split('.')[:-1]))
     torch.save(data, f)
     print("Saved output to {}.".format(f))
 

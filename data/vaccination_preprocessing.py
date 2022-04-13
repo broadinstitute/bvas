@@ -1,16 +1,21 @@
 """
 Script for pre-processing raw vaccination data.
 
+In particular it can be used to create:
+ - vaccine_timeseries.people_fully_vaccinated_per_hundred.csv
+ - vaccine_timeseries.people_vaccinated_per_hundred.csv
+
 ##################################   REQUIRED OWID DATA   ################################################
 # wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv
 # wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv
 ##########################################################################################################
 """
-import pandas as pd
-import datetime
-import numpy as np
 import argparse
+import datetime
 import sys
+
+import numpy as np
+import pandas as pd
 
 
 def main(args):
