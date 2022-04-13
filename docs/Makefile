@@ -5,9 +5,9 @@
 SPHINXOPTS    ?= -E -W
 SPHINXBUILD   = python -msphinx
 APIDOC        = sphinx-apidoc
-SPHINXPROJ    = Pyroed
+SPHINXPROJ    = bvas 
 SOURCEDIR     = source
-PROJECTDIR    = ../pyroed
+PROJECTDIR    = ../bvas
 BUILDDIR      = build
 
 # Put it first so that "make" without argument is like "make help".
