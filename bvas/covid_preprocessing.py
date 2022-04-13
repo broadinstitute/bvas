@@ -4,11 +4,10 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 import torch
-from torch.distributions import Bernoulli
 from util import get_longest_ones_index
 
 
-def _compute_y_gamma(N, genotype, locations, args, phi=None, window=3, verbose=1):
+def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
     X = torch.matmul(N, genotype)
     num_regions, duration, num_alleles = X.shape
     X = torch.matmul(N, genotype)  # num_regions duration num_alleles
@@ -37,13 +36,10 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, window=3, verbose=1
         numerator = (X_r[:-1] * (1 - X_r[:-1])).mean(-1)
         nu_eff_r = (numerator / denominator).mean().item()
         nu_effs.append(nu_eff_r)
-        loc_r = locations[r].split(' / ')[1]
-        if verbose:
-            print("[{}] nu_eff_r: {:.1f}".format(loc_r, nu_eff_r), "N_sum_r: ", int(N_sum_r.mean().item()),
-                  int(N_sum_r.median().item()), "dense ", int(densely_sampled.sum().item()), len(dense_consecutive))
+        loc_r = ' / '.join(locations[r].split(' / ')[1:])
 
-    if verbose:
-        print("[time series lengths] {:.2f} +- {:.2f}".format(np.mean(timeseries_lengths), np.std(timeseries_lengths)))
+        if verbose:
+            print("[{}] nu_eff_r: {:.1f}".format(loc_r, nu_eff_r))
 
     nu_eff_global = np.median(nu_effs)
 
@@ -68,22 +64,14 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, window=3, verbose=1
 
         Y_r = ((X_r[1:] - X_r[:-1]) * phi_r[:-1]).sum(0)
 
-        if args.strategy == 'global':
+        if args.strategy == 'global-median':
             Gamma += nu_eff_global * Gamma_r
             Y += nu_eff_global * Y_r
         elif args.strategy == 'regional':
             Gamma += nu_eff_r * Gamma_r
             Y += nu_eff_r * Y_r
-        elif args.strategy == 'regionalreg':
-            nu_eff_reg_r = np.sqrt(nu_effs[r] * nu_eff_global)
-            if verbose:
-                print("nueff {:.1f} => {:.1f}".format(nu_effs[r], nu_eff_reg_r))
-            Gamma += nu_eff_reg_r * Gamma_r
-            Y += nu_eff_reg_r * Y_r
 
     if verbose:
-        print("[global nu_eff]  {:.1f}".format(nu_eff_global))
-        print("[global nu_eff]  {:.1f} {:.1f} {:.1f}".format(np.min(nu_effs), np.max(nu_effs), np.median(nu_effs)))
         print("Included a total of {} / {} genomes".format(N_kept, int(N_sum.sum().item())))
 
     assert Y.shape == (num_alleles,)
@@ -92,13 +80,13 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, window=3, verbose=1
     return Y, Gamma
 
 
-def compute_y_gamma(N, genotype, locations, args, phi=None, window=3, verbose=1):
+def compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
     if phi is None:
-        return _compute_y_gamma(N, genotype, locations, args, phi=None, window=window, verbose=verbose)
+        return _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=verbose)
     else:
-        Y, Gamma = _compute_y_gamma(N, genotype, locations, args, phi=None, window=window, verbose=verbose)
-        Y_phi, Gamma_cross = _compute_y_gamma(N, genotype, locations, args, phi=phi, window=window, verbose=0)
-        _, Gamma_phi = _compute_y_gamma(N, genotype, locations, args, phi=phi.pow(2.0), window=window, verbose=0)
+        Y, Gamma = _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=verbose)
+        Y_phi, Gamma_cross = _compute_y_gamma(N, genotype, locations, args, phi=phi, verbose=0)
+        _, Gamma_phi = _compute_y_gamma(N, genotype, locations, args, phi=phi.pow(2.0), verbose=0)
 
     A = genotype.size(-1)
     Gamma_full = Gamma.new_zeros(2 * A, 2 * A)
@@ -134,10 +122,8 @@ def main(args):
 
     print("# regions with {} samples: {}".format(args.min_total_samples, big_regions.sum().item()))
     locations = location_id_inv[big_regions.data.cpu().numpy()]
-    print(list(set([l.split(' / ')[1] for l in locations])))
 
     counts = counts[:, big_regions]
-    print("total count: ", counts.sum().item())
 
     if args.phi != 'none':
         if args.phi == 'vaccinated':
@@ -163,31 +149,32 @@ def main(args):
     for k, v in data['clade_to_lineage'].items():
         lineage_to_clade[v].append(k)
 
-    features_pt = torch.load(args.pyrocov_dir + 'features.3000.1.pt')
-    clades = features_pt['clades']
+    data = {'Gamma': Gamma,
+            'Y': Y,
+            'num_alleles': Y.size(-1),
+            'num_regions': counts.size(1),
+            'mutations': mutations,
+            'genotype': features,
+            'pango_idx': pango_idx}
 
-    data = {'Gamma': Gamma, 'Y': Y, 'num_alleles': Y.size(-1),
-            'num_regions': counts.size(1), 'mutations': mutations,
-            'genotype': features, 'counts': counts, 'pango_idx': pango_idx}
-
-    day = int(args.filename.split('.')[-2])
-    f = 'processed_data.day{}.mts{}k.mbs{}.s{}.{}.{}.pt'
-    f = f.format(day, args.min_total_samples // 1000, args.min_biweekly_samples, args.seed,
-                 args.strategy, args.phi)
+    f = 'processed_data.mts{}k.mbs{}.{}.{}.{}.pt'
+    f = f.format(args.min_total_samples // 1000,
+                 args.min_biweekly_samples,
+                 args.strategy,
+                 args.phi,
+                 args.filename)
     torch.save(data, f)
     print("Saved output to {}.".format(f))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='simulator')
-    parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--filename', type=str, default='mutrans.data.single.3000.1.50.None.pt')
     parser.add_argument('--pyrocov-dir', type=str, default='/home/mjankowi/pyro-cov/results/')
     parser.add_argument('--min-total-samples', type=int, default=15 * 10 ** 3)
     parser.add_argument('--min-biweekly-samples', type=int, default=100)
     parser.add_argument('--phi', type=str, default='none', choices=['none', 'vaccinated', 'fully'])
-    parser.add_argument('--strategy', type=str, default='global',
-                        choices=['global', 'regional', 'regionalreg'])
+    parser.add_argument('--strategy', type=str, default='global-median', choices=['global-median', 'regional'])
     args = parser.parse_args()
 
     main(args)
