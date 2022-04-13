@@ -1,4 +1,4 @@
 Simulation
 ==========
-.. automodule:: simulate.py
+.. automodule:: simulate
    :members:
