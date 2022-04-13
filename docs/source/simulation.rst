@@ -1,6 +1,4 @@
 Simulation
 ==========
-.. autoclass:: bvas.simulate
-    :members:
-    :show-inheritance:
-    :member-order: bysource
+.. automodule:: simulate.py
+   :members:
