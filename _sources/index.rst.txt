@@ -4,8 +4,10 @@ BVAS Documentation
 ====================
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     :caption: Contents:
+
+    index.rst
 
 Indices and tables
 ==================
