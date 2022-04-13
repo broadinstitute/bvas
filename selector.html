@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BVAS Sampler &mdash; bvas  documentation</title>
+  <title>BVAS Selector &mdash; bvas  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="BVAS Selector" href="selector.html" /> 
+    <link rel="next" title="BVAS Sampler" href="sampler.html" />
+    <link rel="prev" title="BVAS Documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -39,8 +40,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="selector.html">BVAS Selector</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">BVAS Sampler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BVAS Selector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampler.html">BVAS Sampler</a></li>
 </ul>
 
         </div>
@@ -57,9 +58,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>BVAS Sampler</li>
+      <li>BVAS Selector</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/sampler.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/selector.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -67,16 +68,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="bvas-sampler">
-<h1>BVAS Sampler<a class="headerlink" href="#bvas-sampler" title="Permalink to this headline">¶</a></h1>
+  <section id="bvas-selector">
+<h1>BVAS Selector<a class="headerlink" href="#bvas-selector" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="bvas.BVASSampler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.</span></span><span class="sig-name descname"><span class="pre">BVASSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genotype_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSampler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">bvas.sampler.MCMCSampler</span></code></p>
-<p>MCMC Sampler for Bayesian Viral Allele Selection (BVAS).
+<dt class="sig sig-object py" id="bvas.BVASSelector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.</span></span><span class="sig-name descname"><span class="pre">BVASSelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genotype_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_selector.html#BVASSelector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSelector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Main analysis class for Bayesian Viral Allele Selection (BVAS).
 Combines a Gaussian diffusion-based likelihood with Bayesian
-Variable Selection. Most users will not use this class directly
-and will instead use <cite>BVASSelector</cite>.</p>
+Variable Selection. Uses <cite>BVASSampler</cite> under the hood to do MCMC
+inference.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -84,6 +85,7 @@ and will instead use <cite>BVASSelector</cite>.</p>
 increments for each allele and where A is the number of alleles.</p></li>
 <li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A, A) that encodes information about
 second moments of allele frequencies.</p></li>
+<li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
 <li><p><strong>S</strong> – Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
 If a tuple of positive floats <cite>(alpha, beta)</cite> is provided, the a priori inclusion probability is a latent
 variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
@@ -93,13 +95,11 @@ alleles in the posterior can vary significantly from prior expectations, since t
 effect a compromise between the prior and the observed data.</p></li>
 <li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
 <li><p><strong>nu_eff</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Additional factor by which to multiply the effective population size. Defaults to 1.0.</p></li>
-<li><p><strong>explore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
-For expert users only.</p></li>
-<li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
-is a latent variable. Defaults to 0.2.</p></li>
 <li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (num_variants, A) that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates during inference.
 Defaults to None.</p></li>
+<li><p><strong>variant_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of names of the variants specified by <cite>genotype_matrix</cite>. Must have the
+same length as the leading dimension of <cite>genotype_matrix</cite>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -111,7 +111,8 @@ Defaults to None.</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="selector.html" class="btn btn-neutral float-left" title="BVAS Selector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="BVAS Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sampler.html" class="btn btn-neutral float-right" title="BVAS Sampler" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

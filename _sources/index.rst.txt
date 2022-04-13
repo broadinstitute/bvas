@@ -7,11 +7,11 @@ BVAS Documentation
     :maxdepth: 2
     :caption: Contents:
 
-    index.rst
+    selector.rst
+    sampler.rst
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
