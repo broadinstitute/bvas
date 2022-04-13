@@ -69,8 +69,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="laplace-inference">
-<h1>Laplace Inference<a class="headerlink" href="#laplace-inference" title="Permalink to this headline">¶</a></h1>
+  <section id="module-bvas.laplace">
+<span id="laplace-inference"></span><h1>Laplace Inference<a class="headerlink" href="#module-bvas.laplace" title="Permalink to this headline">¶</a></h1>
+<p>Unlike most of the code in this repository, This code requires pyro.
+See <a class="reference external" href="https://github.com/pyro-ppl/pyro#installing">https://github.com/pyro-ppl/pyro#installing</a> for installation instructions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="bvas.laplace.laplace_inference">
+<span class="sig-prename descclassname"><span class="pre">bvas.laplace.</span></span><span class="sig-name descname"><span class="pre">laplace_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/laplace.html#laplace_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.laplace.laplace_inference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use Maximum A Posteriori (MAP) inference and a diffusion-based likelihood in conjunction
+with a sparsity-inducing Laplace prior on selection coefficients to infer
+selection effects from genomic surveillance data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A,) that encodes integrated alelle frequency
+increments for each allele and where A is the number of alleles.</p></li>
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A, A) that encodes information about
+second moments of allele frequencies.</p></li>
+<li><p><strong>coef_scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The regularization scale of the Laplace prior. Defaults to 0.01.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Random number seed for reproducibility.</p></li>
+<li><p><strong>num_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of optimization steps to do. Defaults to ten thousand.</p></li>
+<li><p><strong>log_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Controls logging frequency. Defaults to 500.</p></li>
+<li><p><strong>init_lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The initial learning rate. Defaults to 0.01.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns dict</dt>
+<dd class="field-even"><p>Returns a dictionary of containing the inferred selection coefficients beta.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
