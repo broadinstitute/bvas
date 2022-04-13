@@ -66,88 +66,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-bvas.bvas_sampler">
-<span id="bvas-sampler"></span><h1>BVAS Sampler<a class="headerlink" href="#module-bvas.bvas_sampler" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.matmul">
-<span class="sig-prename descclassname"><span class="pre">bvas.bvas_sampler.</span></span><span class="sig-name descname"><span class="pre">matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#bvas.bvas_sampler.matmul" title="Permalink to this definition">¶</a></dt>
-<dd><p>Matrix product of two tensors.</p>
-<p>The behavior depends on the dimensionality of the tensors as follows:</p>
-<ul>
-<li><p>If both tensors are 1-dimensional, the dot product (scalar) is returned.</p></li>
-<li><p>If both arguments are 2-dimensional, the matrix-matrix product is returned.</p></li>
-<li><p>If the first argument is 1-dimensional and the second argument is 2-dimensional,
-a 1 is prepended to its dimension for the purpose of the matrix multiply.
-After the matrix multiply, the prepended dimension is removed.</p></li>
-<li><p>If the first argument is 2-dimensional and the second argument is 1-dimensional,
-the matrix-vector product is returned.</p></li>
-<li><p>If both arguments are at least 1-dimensional and at least one argument is
-N-dimensional (where N &gt; 2), then a batched matrix multiply is returned.  If the first
-argument is 1-dimensional, a 1 is prepended to its dimension for the purpose of the
-batched matrix multiply and removed after.  If the second argument is 1-dimensional, a
-1 is appended to its dimension for the purpose of the batched matrix multiple and removed after.
-The non-matrix (i.e. batch) dimensions are <a class="reference external" href="https://pytorch.org/docs/master/notes/broadcasting.html#broadcasting-semantics" title="(in PyTorch v1.12)"><span class="xref std std-ref">broadcasted</span></a> (and thus
-must be broadcastable).  For example, if <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is a
-<span class="math notranslate nohighlight">\((j \times 1 \times n \times n)\)</span> tensor and <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> is a <span class="math notranslate nohighlight">\((k \times n \times n)\)</span>
-tensor, <code class="xref py py-attr docutils literal notranslate"><span class="pre">out</span></code> will be a <span class="math notranslate nohighlight">\((j \times k \times n \times n)\)</span> tensor.</p>
-<p>Note that the broadcasting logic only looks at the batch dimensions when determining if the inputs
-are broadcastable, and not the matrix dimensions. For example, if <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is a
-<span class="math notranslate nohighlight">\((j \times 1 \times n \times m)\)</span> tensor and <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> is a <span class="math notranslate nohighlight">\((k \times m \times p)\)</span>
-tensor, these inputs are valid for broadcasting even though the final two dimensions (i.e. the
-matrix dimensions) are different. <code class="xref py py-attr docutils literal notranslate"><span class="pre">out</span></code> will be a <span class="math notranslate nohighlight">\((j \times k \times n \times p)\)</span> tensor.</p>
-</li>
-</ul>
-<p>This operator supports <a class="reference external" href="https://pytorch.org/docs/master/notes/cuda.html#tf32-on-ampere" title="(in PyTorch v1.12)"><span class="xref std std-ref">TensorFloat32</span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The 1-dimensional dot product version of this function does not support an <code class="xref py py-attr docutils literal notranslate"><span class="pre">out</span></code> parameter.</p>
-</div>
-<dl class="simple">
-<dt>Arguments:</dt><dd><p>input (Tensor): the first tensor to be multiplied
-other (Tensor): the second tensor to be multiplied</p>
-</dd>
-<dt>Keyword args:</dt><dd><p>out (Tensor, optional): the output tensor.</p>
-</dd>
-</dl>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># vector x vector</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-<span class="go">torch.Size([])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># matrix x vector</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-<span class="go">torch.Size([3])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># batched matrix x broadcasted vector</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-<span class="go">torch.Size([10, 3])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># batched matrix x batched matrix</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-<span class="go">torch.Size([10, 3, 5])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># batched matrix x broadcasted matrix</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensor2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor1</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-<span class="go">torch.Size([10, 3, 5])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.sigmoid">
-<span class="sig-prename descclassname"><span class="pre">bvas.bvas_sampler.</span></span><span class="sig-name descname"><span class="pre">sigmoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#bvas.bvas_sampler.sigmoid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for <a class="reference external" href="https://pytorch.org/docs/master/special.html#torch.special.expit" title="(in PyTorch v1.12)"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.special.expit()</span></code></a>.</p>
-</dd></dl>
-
+  <section id="bvas-sampler">
+<h1>BVAS Sampler<a class="headerlink" href="#bvas-sampler" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.BVASSampler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.bvas_sampler.</span></span><span class="sig-name descname"><span class="pre">BVASSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genotype_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.bvas_sampler.BVASSampler" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="bvas.BVASSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.</span></span><span class="sig-name descname"><span class="pre">BVASSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">explore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genotype_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSampler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">bvas.sampler.MCMCSampler</span></code></p>
 <p>MCMC Sampler for Bayesian Viral Allele Selection (BVAS).
 Combines a Gaussian diffusion-based likelihood with Bayesian
@@ -179,21 +102,6 @@ Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.BVASSampler.initialize_sample">
-<span class="sig-name descname"><span class="pre">initialize_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler.initialize_sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.bvas_sampler.BVASSampler.initialize_sample" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.BVASSampler.mcmc_move">
-<span class="sig-name descname"><span class="pre">mcmc_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler.mcmc_move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.bvas_sampler.BVASSampler.mcmc_move" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="bvas.bvas_sampler.BVASSampler.sample_alpha_beta">
-<span class="sig-name descname"><span class="pre">sample_alpha_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_sampler.html#BVASSampler.sample_alpha_beta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.bvas_sampler.BVASSampler.sample_alpha_beta" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
