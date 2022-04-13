@@ -9,7 +9,7 @@ Welcome to the Github repository for *Inferring selection effects in SARS-CoV-2 
 
 ## Requirements
 
-BVAS requires Python 3.8 or later and the following Python packages: [PyTorch](https://pytorch.org/) and [pandas](https://pandas.pydata.org/), and [pyro](https://github.com/pyro-ppl/pyro).
+BVAS requires Python 3.8 or later and the following Python packages: [PyTorch](https://pytorch.org/), [pandas](https://pandas.pydata.org/), and [pyro](https://github.com/pyro-ppl/pyro).
 
 Note that if you wish to run BVAS on a GPU you need to install PyTorch with CUDA support.
 In particular if you run the following command from your terminal it should report True:

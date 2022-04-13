@@ -10,6 +10,8 @@ BVAS Documentation
     selector.rst
     sampler.rst
     simulation.rst
+    map.rst
+    laplace.rst
 
 Indices and tables
 ==================
