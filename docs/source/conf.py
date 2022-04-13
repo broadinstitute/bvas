@@ -65,5 +65,6 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "torch": ("https://pytorch.org/docs/master/", None),
     "pyro": ("http://docs.pyro.ai/en/stable/", None),
+    "pandas": ("https://pandas.pydata.org/docs/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
 }
