@@ -18,6 +18,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MAP Inference" href="map.html" />
     <link rel="prev" title="BVAS Sampler" href="sampler.html" /> 
 </head>
 
@@ -41,6 +42,8 @@
 <li class="toctree-l1"><a class="reference internal" href="selector.html">BVAS Selector</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sampler.html">BVAS Sampler</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map.html">MAP Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="laplace.html">Laplace Inference</a></li>
 </ul>
 
         </div>
@@ -69,44 +72,6 @@
              
   <section id="simulation">
 <h1>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="bvas.simulate_data">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.</span></span><span class="sig-name descname"><span class="pre">simulate_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_alleles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">26</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_variants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_regions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N0_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_density</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'global-mean'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/simulate.html#simulate_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.simulate_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases:</p>
-<p>Simulate pandemic data using a discrete time Negative Binomial branching process.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_alleles</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of alleles to simulate. Defaults to 100.</p></li>
-<li><p><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of timesteps to simulate. Defaults to 26.</p></li>
-<li><p><strong>num_variants</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of viral variants to simulate. Defaults to 100.</p></li>
-<li><p><strong>num_regions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of geographic regions to simulate. Defaults to 10.</p></li>
-<li><p><strong>N0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The mean number of infected individuals at the first time step in each region.
-Defaults to 10000.</p></li>
-<li><p><strong>N0_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the dispersion of the Negative Binomial distribution that is used
-to sample the number of infected individuals at the first time step in each region.
-Defaults to 10.0.</p></li>
-<li><p><strong>R0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The basic reproduction number of the wild-type variant. Defaults to 1.0.</p></li>
-<li><p><strong>mutation_density</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the average number of non-wild-type mutations that
-appear in each viral variant. Defaults to 0.25.</p></li>
-<li><p><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the dispersion of the Negative Binomial distribution that underlies
-the discrete time branching process. Defaults to 0.1.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Sets the random number seed. Defaults to 0.</p></li>
-<li><p><strong>include_phi</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to include vaccine-dependent effects in the simulation. Defauls to False.</p></li>
-<li><p><strong>sampling_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the observation sampling rate, i.e. the percentage of
-infected individuals whose genomes are sequenced. Defaults to 1, i.e. 1%.</p></li>
-<li><p><strong>strategy</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Strategy used for estimating the effective population size. Must be
-one of: global-mean, global-median, regional. Defaults to global-mean.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns dict</dt>
-<dd class="field-even"><p>returns a dictionary that contains Y and Gamma as well as the estimated
-effective population size. Y and Gamma are each scaled
-using the indicated effective population size estimation strategy.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -114,6 +79,7 @@ using the indicated effective population size estimation strategy.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sampler.html" class="btn btn-neutral float-left" title="BVAS Sampler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="map.html" class="btn btn-neutral float-right" title="MAP Inference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
