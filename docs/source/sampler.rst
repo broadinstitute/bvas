@@ -1,7 +1,6 @@
 BVAS Sampler
 ============
-.. automodule:: bvas.bvas_sampler 
+.. autoclass:: bvas.BVASSampler
     :members:
-    :undoc-members:
     :show-inheritance:
     :member-order: bysource
