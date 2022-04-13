@@ -1,7 +1,7 @@
 from functools import cached_property
 
 import numpy as np
-from bvg.util import stack_namespaces
+from bvas.util import stack_namespaces
 
 
 class SimpleSampleContainer(object):

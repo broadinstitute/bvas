@@ -1,3 +1,6 @@
+[![Build Status](https://github.com/broadinstitute/bvas/workflows/CI/badge.svg)](https://github.com/broadinstitute/bvas/actions)
+
+
 # BVAS: Bayesian Viral Allele Selection 
 
 Welcome to the Github repository for *Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*.
