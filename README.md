@@ -1,13 +1,13 @@
-# bvas: bayesian viral allele selection 
+# BVAS: Bayesian Viral Allele Selection 
 
 Welcome to the Github repository for *Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*.
 
 
 ## Requirements
 
-bvas requires Python 3.8 or later and the following Python packages: [PyTorch](https://pytorch.org/) and [pandas](https://pandas.pydata.org/).
+BVAS requires Python 3.8 or later and the following Python packages: [PyTorch](https://pytorch.org/) and [pandas](https://pandas.pydata.org/).
 
-Note that if you wish to run bvas on a GPU you need to install PyTorch with CUDA support.
+Note that if you wish to run BVAS on a GPU you need to install PyTorch with CUDA support.
 In particular if you run the following command from your terminal it should report True:
 ```
 python -c 'import torch; print(torch.cuda.is_available())'
@@ -31,7 +31,7 @@ pip install .
 
 This repo is organized as follows:
  - [bvas](bvas/): all the core code: inference algorithms and simulations
- - [notebooks](notebooks/): Jupyter notebooks demonstrate BVAS usage
+ - [notebooks](notebooks/): Jupyter notebooks demonstrating BVAS usage
    - [basic_demo.ipynb](notebooks/basic_demo.ipynb): demo using simulated data 
    - [S_gene_demo.ipynb](notebooks/S_gene_demo.ipynb): demo using GISAID data restricted only to the SARS-CoV-2 S gene
  - [data](data/): pre-processing scripts and (some of the) data used in the analysis
