@@ -104,26 +104,3 @@ def get_longest_ones_index(x):
     bc_max = len(bc) - 1 - np.argmax(bc[::-1])
     which = np.where(cs == bc_max)[0][1:] - 1 + first_one
     return which
-
-
-if __name__ == '__main__':
-    def test_sequence(x, expected):
-        assert np.all(get_longest_ones_index(np.array(x)) == expected)
-
-    test_sequence([1], [0])
-    test_sequence([1, 1], [0, 1])
-    test_sequence([0, 1], [1])
-    test_sequence([1, 0], [0])
-    test_sequence([1, 0, 0], [0])
-    test_sequence([0, 1, 0], [1])
-    test_sequence([0, 0, 1], [2])
-    test_sequence([1, 1, 0], [0, 1])
-    test_sequence([0, 1, 1], [1, 2])
-    test_sequence([1, 0, 1], [2])
-    test_sequence([1, 1, 1], [0, 1, 2])
-    test_sequence([1, 0, 0, 0], [0])
-    test_sequence([0, 0, 0, 1], [3])
-    test_sequence([0, 1, 1, 0], [1, 2])
-    test_sequence([1, 1, 1, 0], [0, 1, 2])
-    test_sequence([0, 1, 1, 1], [1, 2, 3])
-    test_sequence([1, 1, 1, 1], [0, 1, 2, 3])
