@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/broadinstitute/bvas/workflows/CI/badge.svg)](https://github.com/broadinstitute/bvas/actions)
+[![Docs](https://img.shields.io/badge/api-docs-blue)](https://broadinstitute.github.io/bvas/)
 
 
 # BVAS: Bayesian Viral Allele Selection 
