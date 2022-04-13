@@ -111,7 +111,7 @@ def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=Non
 def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10,
                   N0=10 ** 4, N0_k=10.0, R0=1.0, mutation_density=0.25,
                   k=0.1, seed=0, include_phi=False, sampling_rate=1, strategy='global-mean'):
-    """
+    r"""
     Simulate pandemic data using a discrete time Negative Binomial branching process.
 
     :param int num_alleles: The number of alleles to simulate. Defaults to 100.

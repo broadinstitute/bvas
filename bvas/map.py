@@ -10,6 +10,7 @@ def map_inference(Y, Gamma, taus=[2 ** exponent for exponent in range(4, 16)]):
     selection effects from genomic surveillance data. See reference [1] for details.
 
     References:
+
     [1] "Inferring effects of mutations on SARS-CoV-2 transmission from genomic surveillance data,"
         Brian Lee, Muhammad Saqib Sohail, Elizabeth Finney, Syed Faraz Ahmed, Ahmed Abdul Quadeer,
         Matthew R. McKay, John P. Barton.
