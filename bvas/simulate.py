@@ -65,7 +65,7 @@ def _compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=No
 
 def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=None):
     """
-    Function for computing Y and Gamma from time series of variant-level counts.
+    Function for computing Y and Gamma from time series of (simulated) variant-level counts.
 
     :param torch.Tensor N: A `torch.Tensor` of shape (num_regions, duration, num_variants) that specifies
         region-local variant-level time series of non-negative case counts.
@@ -77,6 +77,10 @@ def compute_y_gamma(N, genotype, strategy='global-median', center=False, phi=Non
         to False.
     :param torch.Tensor phi: Optional time series of region-specific vaccination frequencies, i.e. expected
         to be between 0 and 1. Has shape (num_regions, duration). Defaults to None.
+
+    :returns tuple: Returns a tuple (Y, Gamma, nu_eff) where Y and Gamma are `torch.Tensor`s, with each scaled
+        using the indicated effective population size estimation strategy, and nu_eff is a NumPy array of
+        estimated effective population size(s).
     """
     if strategy not in ['global-mean', 'global-median', 'regional']:
         raise ValueError("strategy must be one of: global-mean, global-median, regional.")
@@ -132,7 +136,8 @@ def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10
         one of: global-mean, global-median, regional. Defaults to global-mean.
 
     :returns dict: returns a dictionary that contains Y and Gamma as well as the estimated
-        effective population size.
+        effective population size. Y and Gamma are each scaled
+        using the indicated effective population size estimation strategy.
     """
 
     torch.manual_seed(seed)

@@ -8,6 +8,9 @@ from util import get_longest_ones_index
 
 
 def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
+    """
+    Helper function for compute_y_gamma below.
+    """
     X = torch.matmul(N, genotype)
     num_regions, duration, num_alleles = X.shape
     X = torch.matmul(N, genotype)  # num_regions duration num_alleles
@@ -81,6 +84,25 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
 
 
 def compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
+    """
+    Function for computing Y and Gamma from time series of variant-level counts.
+    Analog of the function in simulate.py but with additional filtering necessary
+    for real-world data.
+
+    :param torch.Tensor N: A `torch.Tensor` of shape (num_regions, duration, num_variants) that specifies
+        region-local variant-level time series of non-negative case counts.
+    :param torch.Tensor genotype: A binary `torch.Tensor` of shape (num_variants, num_alleles) that specifies
+        the genotype of each variant in `N`.
+    :param list locations: List of string names of geographic regions.
+    :param args: A argparse object that controls the effective population size estimation strategy (via args.strategy),
+        as well as two count-valued hyperparameters (args.min_total_samples and args.min_biweekly_samples).
+    :param torch.Tensor phi: Optional time series of region-specific vaccination frequencies, i.e. expected
+        to be between 0 and 1. Has shape (num_regions, duration). Defaults to None.
+    :param bool verbose: Whether to print verbose info about pre-processing to stdout.
+
+    :returns tuple: Returns a tuple (Y, Gamma) of `torch.Tensor`s, with each scaled using the indicated
+        effective population size estimation strategy.
+    """
     if phi is None:
         return _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=verbose)
     else:
