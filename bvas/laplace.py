@@ -11,7 +11,8 @@ from bvas.util import safe_cholesky
 
 
 def laplace_inference(Y, Gamma,
-                      coef_scale=1.0e-2, seed=0, num_steps=10 ** 4, log_every=500, init_lr=0.01):
+                      coef_scale=1.0e-2, seed=0, num_steps=10 ** 4,
+                      log_every=500, init_lr=0.01):
     r"""
     Use Maximum A Posteriori (MAP) inference and a diffusion-based likelihood in conjunction
     with a sparsity-inducing Laplace prior on selection coefficients to infer
@@ -49,7 +50,7 @@ def laplace_inference(Y, Gamma,
 
         for step in range(num_steps):
             loss = svi.step()
-            if log_every and step % log_every == 0:
+            if log_every and (step % log_every == 0 or step == num_steps - 1):
                 print(f"step {step: >4d} loss = {loss:0.6g}")
 
         return guide
