@@ -1,6 +1,6 @@
 Simulation
 ==========
-.. automethod:: bvas.simulate_data
+.. autoclass:: bvas.simulate
     :members:
     :show-inheritance:
     :member-order: bysource
