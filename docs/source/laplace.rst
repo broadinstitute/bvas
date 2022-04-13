@@ -1,4 +1,4 @@
 Laplace Inference
 =================
-.. automethod:: bvas.laplace
+.. automodule:: bvas.laplace
    :members:

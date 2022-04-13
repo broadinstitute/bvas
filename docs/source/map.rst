@@ -1,4 +1,4 @@
 MAP Inference
 =============
-.. automethod:: bvas.map
+.. automodule:: bvas.map
    :members:
