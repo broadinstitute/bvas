@@ -9,6 +9,7 @@ BVAS Documentation
 
     selector.rst
     sampler.rst
+    simulation.rst
 
 Indices and tables
 ==================
