@@ -96,7 +96,7 @@
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main analysis class for Bayesian Viral Allele Selection (BVAS).</span>
 <span class="sd">    Combines a Gaussian diffusion-based likelihood with Bayesian</span>
-<span class="sd">    Variable Selection. Uses `BVASSampler` under the hood to do MCMC</span>
+<span class="sd">    Variable Selection. Uses :class:`BVASSampler` under the hood to do MCMC</span>
 <span class="sd">    inference.</span>
 
 <span class="sd">    Usage::</span>
@@ -124,7 +124,7 @@
 <span class="sd">        of various viral variants. If included the sampler will compute variant-level growth rates during inference.</span>
 <span class="sd">        Defaults to None.</span>
 <span class="sd">    :param list variant_names: A list of names of the variants specified by `genotype_matrix`. Must have the</span>
-<span class="sd">        same length as the leading dimension of `genotype_matrix`.</span>
+<span class="sd">        same length as the leading dimension of `genotype_matrix`. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
                  <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">nu_eff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
@@ -162,13 +162,14 @@
 <span class="sd">        Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations. After completion the results</span>
 <span class="sd">        of the MCMC run can be accessed in the `summary` and `stats` attributes.</span>
 
-<span class="sd">        The `summary` DataFrame contains five columns. The first column lists the Posterior Inclusion</span>
+<span class="sd">        The `summary` DataFrame contains six columns. The first column lists the Posterior Inclusion</span>
 <span class="sd">        Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient</span>
 <span class="sd">        that corresponds to each covariate. The third column lists the posterior standard deviation for</span>
 <span class="sd">        each coefficient. The fourth and fifth columns are analogous to the second and third columns,</span>
 <span class="sd">        respectively, with the difference that the fourth and fifth columns report conditional posterior</span>
 <span class="sd">        statistics. For example, the fourth column reports the posterior mean of each coefficient</span>
-<span class="sd">        conditioned on the corresponding covariate being included in the model.</span>
+<span class="sd">        conditioned on the corresponding covariate being included in the model. The sixth column</span>
+<span class="sd">        is the PIP rank.</span>
 
 <span class="sd">        :param int T: Positive integer that controls the number of MCMC samples that are</span>
 <span class="sd">            generated (i.e. after burn-in/adaptation).</span>

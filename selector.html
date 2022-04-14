@@ -79,7 +79,7 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Main analysis class for Bayesian Viral Allele Selection (BVAS).
 Combines a Gaussian diffusion-based likelihood with Bayesian
-Variable Selection. Uses <cite>BVASSampler</cite> under the hood to do MCMC
+Variable Selection. Uses <a class="reference internal" href="sampler.html#bvas.BVASSampler" title="bvas.BVASSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BVASSampler</span></code></a> under the hood to do MCMC
 inference.</p>
 <p>Usage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">BVASSelector</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
@@ -109,7 +109,7 @@ effect a compromise between the prior and the observed data.</p></li>
 of various viral variants. If included the sampler will compute variant-level growth rates during inference.
 Defaults to None.</p></li>
 <li><p><strong>variant_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of names of the variants specified by <cite>genotype_matrix</cite>. Must have the
-same length as the leading dimension of <cite>genotype_matrix</cite>.</p></li>
+same length as the leading dimension of <cite>genotype_matrix</cite>. Defaults to None.</p></li>
 </ul>
 </dd>
 </dl>
@@ -118,13 +118,14 @@ same length as the leading dimension of <cite>genotype_matrix</cite>.</p></li>
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_burnin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_selector.html#BVASSelector.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSelector.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run MCMC inference for <span class="math notranslate nohighlight">\(T + T_{\rm burn-in}\)</span> iterations. After completion the results
 of the MCMC run can be accessed in the <cite>summary</cite> and <cite>stats</cite> attributes.</p>
-<p>The <cite>summary</cite> DataFrame contains five columns. The first column lists the Posterior Inclusion
+<p>The <cite>summary</cite> DataFrame contains six columns. The first column lists the Posterior Inclusion
 Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient
 that corresponds to each covariate. The third column lists the posterior standard deviation for
 each coefficient. The fourth and fifth columns are analogous to the second and third columns,
 respectively, with the difference that the fourth and fifth columns report conditional posterior
 statistics. For example, the fourth column reports the posterior mean of each coefficient
-conditioned on the corresponding covariate being included in the model.</p>
+conditioned on the corresponding covariate being included in the model. The sixth column
+is the PIP rank.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
