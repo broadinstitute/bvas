@@ -81,6 +81,13 @@
 Combines a Gaussian diffusion-based likelihood with Bayesian
 Variable Selection. Uses <cite>BVASSampler</cite> under the hood to do MCMC
 inference.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">BVASSelector</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">T_burnin</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -106,6 +113,31 @@ same length as the leading dimension of <cite>genotype_matrix</cite>.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="bvas.BVASSelector.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_burnin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_selector.html#BVASSelector.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSelector.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run MCMC inference for <span class="math notranslate nohighlight">\(T + T_{\rm burn-in}\)</span> iterations. After completion the results
+of the MCMC run can be accessed in the <cite>summary</cite> and <cite>stats</cite> attributes.</p>
+<p>The <cite>summary</cite> DataFrame contains five columns. The first column lists the Posterior Inclusion
+Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient
+that corresponds to each covariate. The third column lists the posterior standard deviation for
+each coefficient. The fourth and fifth columns are analogous to the second and third columns,
+respectively, with the difference that the fourth and fifth columns report conditional posterior
+statistics. For example, the fourth column reports the posterior mean of each coefficient
+conditioned on the corresponding covariate being included in the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Positive integer that controls the number of MCMC samples that are
+generated (i.e. after burn-in/adaptation).</p></li>
+<li><p><strong>T_burnin</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Positive integer that controls the number of MCMC samples that are
+generated during burn-in/adaptation.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Random number seed for reproducibility. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
