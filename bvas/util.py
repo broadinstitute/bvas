@@ -66,7 +66,8 @@ def leave_one_out_diagonal(x):
 
 def leave_one_out_off_diagonal(x):
     N = x.size(-1)
-    mask = torch.arange(N, device=x.device).expand(N, N, N) != torch.arange(N).unsqueeze(-1).unsqueeze(-1)
+    mask = torch.arange(N, device=x.device).expand(N, N, N) != \
+        torch.arange(N, device=x.device).unsqueeze(-1).unsqueeze(-1)
     mask = ~mask & mask.transpose(dim0=-1, dim1=-2)
     return x.expand(N, N, N)[mask].reshape(N, N - 1)
 
