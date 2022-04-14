@@ -197,16 +197,17 @@
 <span class="sd">    :param float mutation_density: Controls the average number of non-wild-type mutations that</span>
 <span class="sd">        appear in each viral variant. Defaults to 0.25.</span>
 <span class="sd">    :param float k: Controls the dispersion of the Negative Binomial distribution that underlies</span>
-<span class="sd">        the discrete time branching process. Defaults to 0.1.</span>
+<span class="sd">        the discrete time branching process. Defaults to 0.1. Small `k` corresponds to the</span>
+<span class="sd">        super-spreading limit.</span>
 <span class="sd">    :param int seed: Sets the random number seed. Defaults to 0.</span>
-<span class="sd">    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation. Defauls to False.</span>
+<span class="sd">    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation. Defaults to False.</span>
 <span class="sd">    :param float sampling_rate: Controls the observation sampling rate, i.e. the percentage of</span>
 <span class="sd">        infected individuals whose genomes are sequenced. Defaults to 1, i.e. 1%.</span>
 <span class="sd">    :param str strategy: Strategy used for estimating the effective population size. Must be</span>
 <span class="sd">        one of: global-mean, global-median, regional. Defaults to global-mean.</span>
 
-<span class="sd">    :returns dict: returns a dictionary that contains Y and Gamma as well as the estimated</span>
-<span class="sd">        effective population size. Y and Gamma are each scaled</span>
+<span class="sd">    :returns dict: returns a dictionary that contains `Y` and `Gamma` as well as the estimated</span>
+<span class="sd">        effective population size. `Y` and `Gamma` are each scaled</span>
 <span class="sd">        using the indicated effective population size estimation strategy.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

@@ -78,17 +78,17 @@
 <dd><p>Use Maximum A Posteriori (MAP) inference and a diffusion-based likelihood to infer
 selection effects from genomic surveillance data. See reference [1] for details.</p>
 <p>References:</p>
-<dl class="simple">
-<dt>[1] “Inferring effects of mutations on SARS-CoV-2 transmission from genomic surveillance data,”</dt><dd><p>Brian Lee, Muhammad Saqib Sohail, Elizabeth Finney, Syed Faraz Ahmed, Ahmed Abdul Quadeer,
+<blockquote>
+<div><p>[1] “Inferring effects of mutations on SARS-CoV-2 transmission from genomic surveillance data,”
+Brian Lee, Muhammad Saqib Sohail, Elizabeth Finney, Syed Faraz Ahmed, Ahmed Abdul Quadeer,
 Matthew R. McKay, John P. Barton.</p>
-</dd>
-</dl>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A,) that encodes integrated alelle frequency
-increments for each allele and where A is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A torch.Tensor of shape (A, A) that encodes information about
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
 <li><p><strong>tau_reg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – A positive float <cite>tau_reg</cite> that serves as the regularizer in MAP inference
@@ -96,7 +96,7 @@ along the lines of ridge regression. Note that this quantity is called <cite>gam
 </ul>
 </dd>
 <dt class="field-even">Returns pandas.DataFrame</dt>
-<dd class="field-even"><p>Returns a <cite>pd.DataFrame</cite> containing results of inference.</p>
+<dd class="field-even"><p>Returns a <cite>pandas.DataFrame</cite> containing results of inference.</p>
 </dd>
 </dl>
 </dd></dl>

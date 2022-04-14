@@ -93,9 +93,9 @@
 <span class="sd">    Variable Selection. Most users will not use this class directly</span>
 <span class="sd">    and will instead use :class:`BVASSelector`.</span>
 
-<span class="sd">    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency</span>
-<span class="sd">        increments for each allele and where A is the number of alleles.</span>
-<span class="sd">    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about</span>
+<span class="sd">    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency</span>
+<span class="sd">        increments for each allele and where `A` is the number of alleles.</span>
+<span class="sd">    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about</span>
 <span class="sd">        second moments of allele frequencies.</span>
 <span class="sd">    :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.</span>
 <span class="sd">        If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent</span>
@@ -109,9 +109,10 @@
 <span class="sd">    :param float explore: This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.</span>
 <span class="sd">        For expert users only.</span>
 <span class="sd">    :param float xi_target: This hyperparameter controls how often :math:`h` MCMC updates are made if :math:`h`</span>
-<span class="sd">        is a latent variable. Defaults to 0.2.</span>
-<span class="sd">    :param torch.Tensor genotype_matrix: A torch.Tensor of shape (num_variants, A) that encodes the genotype</span>
-<span class="sd">        of various viral variants. If included the sampler will compute variant-level growth rates during inference.</span>
+<span class="sd">        is a latent variable. Defaults to 0.2. For expert users only.</span>
+<span class="sd">    :param torch.Tensor genotype_matrix: A matrix of shape `(num_variants, A)` that encodes the genotype</span>
+<span class="sd">        of various viral variants. If included the sampler will compute variant-level growth rates</span>
+<span class="sd">        during inference for the varaints encoded by `genotype_matrix`.</span>
 <span class="sd">        Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span>

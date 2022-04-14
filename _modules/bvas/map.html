@@ -83,19 +83,19 @@
 
 <span class="sd">    References:</span>
 
-<span class="sd">    [1] &quot;Inferring effects of mutations on SARS-CoV-2 transmission from genomic surveillance data,&quot;</span>
+<span class="sd">        [1] &quot;Inferring effects of mutations on SARS-CoV-2 transmission from genomic surveillance data,&quot;</span>
 <span class="sd">        Brian Lee, Muhammad Saqib Sohail, Elizabeth Finney, Syed Faraz Ahmed, Ahmed Abdul Quadeer,</span>
 <span class="sd">        Matthew R. McKay, John P. Barton.</span>
 
-<span class="sd">    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency</span>
-<span class="sd">        increments for each allele and where A is the number of alleles.</span>
-<span class="sd">    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about</span>
+<span class="sd">    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency</span>
+<span class="sd">        increments for each allele and where `A` is the number of alleles.</span>
+<span class="sd">    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about</span>
 <span class="sd">        second moments of allele frequencies.</span>
 <span class="sd">    :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.</span>
 <span class="sd">    :param float tau_reg: A positive float `tau_reg` that serves as the regularizer in MAP inference</span>
 <span class="sd">        along the lines of ridge regression. Note that this quantity is called `gamma` in reference [1].</span>
 
-<span class="sd">    :returns pandas.DataFrame: Returns a `pd.DataFrame` containing results of inference.</span>
+<span class="sd">    :returns pandas.DataFrame: Returns a `pandas.DataFrame` containing results of inference.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">L_tau</span> <span class="o">=</span> <span class="n">safe_cholesky</span><span class="p">(</span><span class="n">Gamma</span> <span class="o">+</span> <span class="n">tau_reg</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">Gamma</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">type_as</span><span class="p">(</span><span class="n">Gamma</span><span class="p">))</span>
     <span class="n">Yt</span> <span class="o">=</span> <span class="n">trisolve</span><span class="p">(</span><span class="n">L_tau</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">upper</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
