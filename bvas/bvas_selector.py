@@ -7,6 +7,21 @@ from bvas.containers import StreamingSampleContainer
 from bvas.util import namespace_to_numpy
 
 
+def populate_alpha_beta_stats(container, stats):
+    for s in ['h_alpha', 'h_beta', 'h']:
+        if hasattr(container, s):
+            stats['Mean ' + s] = getattr(container, s)
+
+
+def populate_weight_stats(selector, stats, weights, quantiles=[5.0, 10.0, 20.0, 50.0, 90.0, 95.0]):
+    q5, q10, q20, q50, q90, q95 = np.percentile(weights, quantiles).tolist()
+    s = "5/10/20/50/90/95:  {:.2e}  {:.2e}  {:.2e}  {:.2e}  {:.2e}  {:.2e}"
+    stats['Weight quantiles'] = s.format(q5, q10, q20, q50, q90, q95)
+    s = "mean/std/min/max:  {:.2e}  {:.2e}  {:.2e}  {:.2e}"
+    stats['Weight moments'] = s.format(weights.mean().item(), weights.std().item(),
+                                       weights.min().item(), weights.max().item())
+
+
 class BVASSelector(object):
     r"""
     Main analysis class for Bayesian Viral Allele Selection (BVAS).
@@ -89,6 +104,7 @@ class BVASSelector(object):
             pango = pd.Series(self.variant_names, name="Variant Name")
             self.growth_rates = pd.concat([growth_rate, growth_rate_std, pango], axis=1)
 
-        if hasattr(self.container, 'h'):
-            if self.container.h.size == 1:
-                print('[h_ratio] {:.4f}'.format(self.container.h.item()))
+        self.stats = {}
+        self.weights = np.array(self.container._weights)
+        populate_alpha_beta_stats(self.container, self.stats)
+        populate_weight_stats(self, self.stats, self.weights)
