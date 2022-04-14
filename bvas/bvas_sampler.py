@@ -21,7 +21,7 @@ class BVASSampler(MCMCSampler):
     MCMC Sampler for Bayesian Viral Allele Selection (BVAS).
     Combines a Gaussian diffusion-based likelihood with Bayesian
     Variable Selection. Most users will not use this class directly
-    and will instead use `BVASSelector`.
+    and will instead use :class:`BVASSelector`.
 
     :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
         increments for each allele and where A is the number of alleles.
