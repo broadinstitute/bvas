@@ -26,7 +26,7 @@ class BVASSelector(object):
     r"""
     Main analysis class for Bayesian Viral Allele Selection (BVAS).
     Combines a Gaussian diffusion-based likelihood with Bayesian
-    Variable Selection. Uses `BVASSampler` under the hood to do MCMC
+    Variable Selection. Uses :class:`BVASSampler` under the hood to do MCMC
     inference.
 
     Usage::
@@ -54,7 +54,7 @@ class BVASSelector(object):
         of various viral variants. If included the sampler will compute variant-level growth rates during inference.
         Defaults to None.
     :param list variant_names: A list of names of the variants specified by `genotype_matrix`. Must have the
-        same length as the leading dimension of `genotype_matrix`.
+        same length as the leading dimension of `genotype_matrix`. Defaults to None.
     """
     def __init__(self, Y, Gamma, mutations, S=5.0,
                  tau=100.0, nu_eff=1.0,
@@ -92,13 +92,14 @@ class BVASSelector(object):
         Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations. After completion the results
         of the MCMC run can be accessed in the `summary` and `stats` attributes.
 
-        The `summary` DataFrame contains five columns. The first column lists the Posterior Inclusion
+        The `summary` DataFrame contains six columns. The first column lists the Posterior Inclusion
         Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient
         that corresponds to each covariate. The third column lists the posterior standard deviation for
         each coefficient. The fourth and fifth columns are analogous to the second and third columns,
         respectively, with the difference that the fourth and fifth columns report conditional posterior
         statistics. For example, the fourth column reports the posterior mean of each coefficient
-        conditioned on the corresponding covariate being included in the model.
+        conditioned on the corresponding covariate being included in the model. The sixth column
+        is the PIP rank.
 
         :param int T: Positive integer that controls the number of MCMC samples that are
             generated (i.e. after burn-in/adaptation).
