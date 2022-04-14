@@ -23,9 +23,9 @@ class BVASSampler(MCMCSampler):
     Variable Selection. Most users will not use this class directly
     and will instead use :class:`BVASSelector`.
 
-    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
-        increments for each allele and where A is the number of alleles.
-    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
+    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
+        increments for each allele and where `A` is the number of alleles.
+    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
         second moments of allele frequencies.
     :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
         If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
@@ -39,9 +39,10 @@ class BVASSampler(MCMCSampler):
     :param float explore: This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
         For expert users only.
     :param float xi_target: This hyperparameter controls how often :math:`h` MCMC updates are made if :math:`h`
-        is a latent variable. Defaults to 0.2.
-    :param torch.Tensor genotype_matrix: A torch.Tensor of shape (num_variants, A) that encodes the genotype
-        of various viral variants. If included the sampler will compute variant-level growth rates during inference.
+        is a latent variable. Defaults to 0.2. For expert users only.
+    :param torch.Tensor genotype_matrix: A matrix of shape `(num_variants, A)` that encodes the genotype
+        of various viral variants. If included the sampler will compute variant-level growth rates
+        during inference for the varaints encoded by `genotype_matrix`.
         Defaults to None.
     """
     def __init__(self, Y, Gamma,

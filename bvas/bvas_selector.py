@@ -36,9 +36,9 @@ class BVASSelector(object):
         print(selector.summary)
         print(selector.stats)
 
-    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
-        increments for each allele and where A is the number of alleles.
-    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
+    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
+        increments for each allele and where `A` is the number of alleles.
+    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
         second moments of allele frequencies.
     :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.
     :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
@@ -50,9 +50,10 @@ class BVASSelector(object):
         effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
     :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.
-    :param torch.Tensor genotype_matrix: A torch.Tensor of shape (num_variants, A) that encodes the genotype
-        of various viral variants. If included the sampler will compute variant-level growth rates during inference.
-        Defaults to None.
+    :param torch.Tensor genotype_matrix: A matrix of shape `(num_variants, A)` that encodes the genotype
+        of various viral variants. If included the sampler will compute variant-level growth rates
+        during inference for the varaints in `genotype_matrix`.
+        Defaults to None. If not None, user must also provide `variant_names`.
     :param list variant_names: A list of names of the variants specified by `genotype_matrix`. Must have the
         same length as the leading dimension of `genotype_matrix`. Defaults to None.
     """
@@ -89,11 +90,13 @@ class BVASSelector(object):
 
     def run(self, T, T_burnin, seed=None):
         r"""
-        Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations. After completion the results
+        Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations.
+        The leading :math:`T_{\rm burn-in}` iterations are discarded. After completion the results
         of the MCMC run can be accessed in the `summary` and `stats` attributes.
 
-        The `summary` DataFrame contains six columns. The first column lists the Posterior Inclusion
-        Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient
+        The `summary` :class:`pandas.DataFrame` contains six columns.
+        The first column lists the Posterior Inclusion Probability (PIP) for each covariate.
+        The second column lists the posterior mean of the coefficient
         that corresponds to each covariate. The third column lists the posterior standard deviation for
         each coefficient. The fourth and fifth columns are analogous to the second and third columns,
         respectively, with the difference that the fourth and fifth columns report conditional posterior

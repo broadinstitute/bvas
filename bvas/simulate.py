@@ -127,16 +127,17 @@ def simulate_data(num_alleles=100, duration=26, num_variants=100, num_regions=10
     :param float mutation_density: Controls the average number of non-wild-type mutations that
         appear in each viral variant. Defaults to 0.25.
     :param float k: Controls the dispersion of the Negative Binomial distribution that underlies
-        the discrete time branching process. Defaults to 0.1.
+        the discrete time branching process. Defaults to 0.1. Small `k` corresponds to the
+        super-spreading limit.
     :param int seed: Sets the random number seed. Defaults to 0.
-    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation. Defauls to False.
+    :param bool include_phi: Whether to include vaccine-dependent effects in the simulation. Defaults to False.
     :param float sampling_rate: Controls the observation sampling rate, i.e. the percentage of
         infected individuals whose genomes are sequenced. Defaults to 1, i.e. 1%.
     :param str strategy: Strategy used for estimating the effective population size. Must be
         one of: global-mean, global-median, regional. Defaults to global-mean.
 
-    :returns dict: returns a dictionary that contains Y and Gamma as well as the estimated
-        effective population size. Y and Gamma are each scaled
+    :returns dict: returns a dictionary that contains `Y` and `Gamma` as well as the estimated
+        effective population size. `Y` and `Gamma` are each scaled
         using the indicated effective population size estimation strategy.
     """
 

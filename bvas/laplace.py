@@ -18,18 +18,18 @@ def laplace_inference(Y, Gamma, mutations,
 
     Unlike most of the code in this repository, `laplace_inference` depends on Pyro.
 
-    :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
-        increments for each allele and where A is the number of alleles.
-    :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
+    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
+        increments for each allele and where `A` is the number of alleles.
+    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
         second moments of allele frequencies.
     :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.
     :param float coef_scale: The regularization scale of the Laplace prior. Defaults to 0.01.
     :param int seed: Random number seed for reproducibility.
-    :param int num_steps: The number of optimization steps to do. Defaults to ten thousand.
+    :param int num_steps: The number of optimization steps to do. Defaults to 10000.
     :param int log_every: Controls logging frequency. Defaults to 500.
     :param float init_lr: The initial learning rate. Defaults to 0.01.
 
-    :returns pandas.DataFrame: Returns a `pd.DataFrame` containing results of inference.
+    :returns pandas.DataFrame: Returns a `pandas.DataFrame` containing results of inference.
     """
     pyro.clear_param_store()
 
