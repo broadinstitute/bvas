@@ -4,7 +4,8 @@ BVAS Documentation
 ==================
 
 This is the documentation for BVAS, a package for inferring selection effects
-from genomic surveillance data using Bayesian methods. 
+from genomic surveillance data using Bayesian methods, in particular 
+Bayesian Viral Allele Selection.
 Please see the `GitHub repo <https://github.com/broadinstitute/bvas>`__ for more details.
 
 Requirements
@@ -58,8 +59,7 @@ See the Jupyter notebooks in the `notebooks <https://github.com/broadinstitute/b
     map.rst
     laplace.rst
 
-Indices and search 
-==================
+Index
+=====
 
 * :ref:`genindex`
-* :ref:`search`
