@@ -1,13 +1,11 @@
-import torch
 from generate_test_data import get_nb_data
 
 from bvas import laplace_inference, map_inference
 
 
 def test_bvas_selector(A=100, beta0=0.04, beta1=0.08, seed=1):
-    torch.set_default_tensor_type(torch.DoubleTensor)
-
     Y, Gamma = get_nb_data(num_alleles=A, beta0=beta0, beta1=beta1, seed=seed)
+    Y, Gamma = Y.double(), Gamma.double()
 
     mutations = ["mut{}".format(k) for k in range(A)]
 

@@ -1,5 +1,4 @@
 import numpy as np
-import torch
 from common import assert_close
 from generate_test_data import get_nb_data
 from torch.distributions import Bernoulli
@@ -11,11 +10,9 @@ from bvas.util import namespace_to_numpy, stack_namespaces
 def test_bvas_sampler(A=500, T=2000, T_burnin=200, report_frequency=500,
                       beta0=0.04, beta1=0.08, seed=1):
 
-    torch.set_default_tensor_type(torch.DoubleTensor)
-
     Y, Gamma = get_nb_data(num_alleles=A, beta0=beta0, beta1=beta1, seed=seed)
-
-    genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A))
+    Y, Gamma = Y.double(), Gamma.double()
+    genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A)).double()
 
     samples = []
     sampler = BVASSampler(Y, Gamma, S=(0.1, 100.0), tau=10.0, genotype_matrix=genotype_matrix)

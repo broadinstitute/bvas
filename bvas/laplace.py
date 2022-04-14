@@ -40,7 +40,7 @@ def laplace_inference(Y, Gamma, mutations,
     L_Y = trisolve(L, Y.unsqueeze(-1), upper=False).squeeze(-1)
 
     def model():
-        beta = pyro.sample("beta", dist.Laplace(0.0, coef_scale * torch.ones(A)).to_event(1))
+        beta = pyro.sample("beta", dist.Laplace(0.0, coef_scale * torch.ones(A).type_as(L)).to_event(1))
         pyro.factor("obs", -0.5 * (L.t() @ beta - L_Y).pow(2.0).sum())
 
     def fit_svi():

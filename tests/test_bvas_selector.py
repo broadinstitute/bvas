@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 import torch
 from common import assert_close
 from generate_test_data import get_nb_data
@@ -7,14 +8,21 @@ from torch.distributions import Bernoulli
 from bvas import BVASSelector
 
 
-def test_bvas_selector(A=500, T=2000, T_burnin=200, report_frequency=500,
+@pytest.mark.parametrize("device", ["cpu", "gpu"])
+def test_bvas_selector(device, A=500, T=2000, T_burnin=200, report_frequency=500,
                        beta0=0.04, beta1=0.08, seed=1):
-
-    torch.set_default_tensor_type(torch.DoubleTensor)
 
     Y, Gamma = get_nb_data(num_alleles=A, beta0=beta0, beta1=beta1, seed=seed)
 
-    genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A))
+    if device == "cpu":
+        Y, Gamma = Y.double(), Gamma.double()
+    elif device == "gpu":
+        if torch.cuda.is_available():
+            Y, Gamma = Y.cuda(), Gamma.cuda()
+        else:
+            return
+
+    genotype_matrix = Bernoulli(0.2).sample(sample_shape=(5, A)).type_as(Y)
     variant_names = ["VarA", "VarB", "VarC", "VarD", "VarE"]
 
     mutations = ["mut{}".format(k) for k in range(A)]
