@@ -31,6 +31,12 @@ cd bvas
 pip install .
 ```
 
+
+## Documentation
+
+The documentation is available [here](https://broadinstitute.github.io/bvas/).
+
+
 ## Repo organization 
 
 This repo is organized as follows:
