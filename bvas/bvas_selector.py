@@ -29,6 +29,13 @@ class BVASSelector(object):
     Variable Selection. Uses `BVASSampler` under the hood to do MCMC
     inference.
 
+    Usage::
+
+        selector = BVASSelector(Y, Gamma, mutations, S=10.0, tau=100.0)
+        selector.run(T=2000, T_burnin=1000)
+        print(selector.summary)
+        print(selector.stats)
+
     :param torch.Tensor Y: A torch.Tensor of shape (A,) that encodes integrated alelle frequency
         increments for each allele and where A is the number of alleles.
     :param torch.Tensor Gamma: A torch.Tensor of shape (A, A) that encodes information about
@@ -81,6 +88,24 @@ class BVASSelector(object):
                                    genotype_matrix=genotype_matrix)
 
     def run(self, T, T_burnin, seed=None):
+        r"""
+        Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations. After completion the results
+        of the MCMC run can be accessed in the `summary` and `stats` attributes.
+
+        The `summary` DataFrame contains five columns. The first column lists the Posterior Inclusion
+        Probability (PIP) for each covariate. The second column lists the posterior mean of the coefficient
+        that corresponds to each covariate. The third column lists the posterior standard deviation for
+        each coefficient. The fourth and fifth columns are analogous to the second and third columns,
+        respectively, with the difference that the fourth and fifth columns report conditional posterior
+        statistics. For example, the fourth column reports the posterior mean of each coefficient
+        conditioned on the corresponding covariate being included in the model.
+
+        :param int T: Positive integer that controls the number of MCMC samples that are
+            generated (i.e. after burn-in/adaptation).
+        :param int T_burnin: Positive integer that controls the number of MCMC samples that are
+            generated during burn-in/adaptation.
+        :param int seed: Random number seed for reproducibility. Defaults to None.
+        """
         enumerate_samples = tenumerate(self.sampler.mcmc_chain(T=T, T_burnin=T_burnin, seed=seed),
                                        total=T + T_burnin)
 
