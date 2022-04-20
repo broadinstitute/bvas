@@ -28,12 +28,14 @@ def map_inference(Y, Gamma, mutations, tau_reg):
     :returns pandas.DataFrame: Returns a `pandas.DataFrame` containing results of inference.
     """
     L_tau = safe_cholesky(Gamma + tau_reg * torch.eye(Gamma.size(-1)).type_as(Gamma))
-    Yt = trisolve(L_tau, Y.unsqueeze(-1), upper=False)
-    beta = trisolve(L_tau.t(), Yt, upper=True).squeeze(-1)
+    Gamma_inv = torch.cholesky_inverse(L_tau, upper=False)
+    beta = torch.mv(Gamma_inv, Y).data.cpu().numpy()
+    beta_std = Gamma_inv.diag().sqrt().data.cpu().numpy()
 
     beta = pd.DataFrame(beta, index=mutations, columns=['Beta'])
     beta['BetaAbs'] = np.fabs(beta.Beta.values)
+    beta['BetaStd'] = beta_std
     beta = beta.sort_values(by='BetaAbs', ascending=False)
     beta['Rank'] = 1 + np.arange(beta.shape[0])
 
-    return beta[['Beta', 'Rank']]
+    return beta[['Beta', 'BetaStd', 'Rank']]

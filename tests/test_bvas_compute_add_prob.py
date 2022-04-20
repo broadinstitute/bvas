@@ -55,8 +55,8 @@ def check_gammas(sampler, A, compute_log_factor_ratio):
         assert_close(compute_log_factor_ratio([0, 1, 2, a], [0, 1, 2]), log_odds[a], atol=1.0e-7)
 
 
-@pytest.mark.parametrize("A", [4, 5])
-@pytest.mark.parametrize("nu_eff", [0.71, 1.9])
+@pytest.mark.parametrize("A", [4, 5, 6])
+@pytest.mark.parametrize("nu_eff", [0.71, 1.93])
 def test_bvas_compute_add_log_prob(A, nu_eff, tau=0.47):
     Y, Gamma = get_nb_data(num_alleles=A, num_regions=20, num_variants=10)
 
