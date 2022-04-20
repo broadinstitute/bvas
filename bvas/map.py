@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import torch
-from torch.linalg import solve_triangular as trisolve
 
 from bvas.util import safe_cholesky
 
