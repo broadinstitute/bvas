@@ -34,6 +34,7 @@ class BVASSelector(object):
         selector = BVASSelector(Y, Gamma, mutations, S=10.0, tau=100.0)
         selector.run(T=2000, T_burnin=1000)
         print(selector.summary)
+        print(selector.growth_rates)
         print(selector.stats)
 
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
@@ -92,7 +93,7 @@ class BVASSelector(object):
         r"""
         Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations.
         The leading :math:`T_{\rm burn-in}` iterations are discarded. After completion the results
-        of the MCMC run can be accessed in the `summary` and `stats` attributes.
+        of the MCMC run can be accessed in the `summary`, `growth_rates`, and `stats` attributes.
 
         The `summary` :class:`pandas.DataFrame` contains six columns.
         The first column lists the Posterior Inclusion Probability (PIP) for each covariate.
@@ -103,6 +104,10 @@ class BVASSelector(object):
         statistics. For example, the fourth column reports the posterior mean of each coefficient
         conditioned on the corresponding covariate being included in the model. The sixth column
         is the PIP rank.
+
+        The `growth_rates` :class:`pandas.DataFrame` reports estimated relative growth rates for
+        each variant in `genotype_matrix` if the latter was provided. Note that growth rates are
+        relative to the wild-type variant with all-zeros genotype.
 
         :param int T: Positive integer that controls the number of MCMC samples that are
             generated (i.e. after burn-in/adaptation).
