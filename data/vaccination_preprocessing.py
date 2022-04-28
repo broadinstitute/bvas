@@ -40,14 +40,14 @@ def main(args):
         day = datetime.timedelta(days=1)
         return np.array([start + day * t for t in range(num_days)])
 
-    dates = [date.strftime("%Y-%m-%d") for date in date_range(14 * 56)]
-    regions74 = pd.read_csv('74region_summary.csv', index_col=0).Region.values.tolist()
-    regions73 = [r for r in regions74 if 'Luxembourg' not in r]  # missing people_fully_vaccinated_per_hundred
-    assert len(regions73) == 73
+    dates = [date.strftime("%Y-%m-%d") for date in date_range(14 * 62)]
+    regions = pd.read_csv('128_region_summary.csv', index_col=0).Region.values.tolist()
+    regions = [r for r in regions if 'Luxembourg' not in r]  # missing people_fully_vaccinated_per_hundred
+    assert len(regions) == 127
 
     dfs = []
 
-    for loc in regions73:
+    for loc in regions:
         splits = loc.split(' / ')
         if len(splits) == 3:
             country, region = splits[1:]
@@ -82,7 +82,7 @@ def main(args):
         assert increments.min().item() >= 0.0
 
     df = pd.concat(dfs, axis=1).transpose()
-    df.index = regions73
+    df.index = regions
     df.columns = dates[::14]
     print(df)
 
