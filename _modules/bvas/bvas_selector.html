@@ -104,6 +104,7 @@
 <span class="sd">        selector = BVASSelector(Y, Gamma, mutations, S=10.0, tau=100.0)</span>
 <span class="sd">        selector.run(T=2000, T_burnin=1000)</span>
 <span class="sd">        print(selector.summary)</span>
+<span class="sd">        print(selector.growth_rates)</span>
 <span class="sd">        print(selector.stats)</span>
 
 <span class="sd">    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency</span>
@@ -162,7 +163,7 @@
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Run MCMC inference for :math:`T + T_{\rm burn-in}` iterations.</span>
 <span class="sd">        The leading :math:`T_{\rm burn-in}` iterations are discarded. After completion the results</span>
-<span class="sd">        of the MCMC run can be accessed in the `summary` and `stats` attributes.</span>
+<span class="sd">        of the MCMC run can be accessed in the `summary`, `growth_rates`, and `stats` attributes.</span>
 
 <span class="sd">        The `summary` :class:`pandas.DataFrame` contains six columns.</span>
 <span class="sd">        The first column lists the Posterior Inclusion Probability (PIP) for each covariate.</span>
@@ -173,6 +174,10 @@
 <span class="sd">        statistics. For example, the fourth column reports the posterior mean of each coefficient</span>
 <span class="sd">        conditioned on the corresponding covariate being included in the model. The sixth column</span>
 <span class="sd">        is the PIP rank.</span>
+
+<span class="sd">        The `growth_rates` :class:`pandas.DataFrame` reports estimated relative growth rates for</span>
+<span class="sd">        each variant in `genotype_matrix` if the latter was provided. Note that growth rates are</span>
+<span class="sd">        relative to the wild-type variant with all-zeros genotype.</span>
 
 <span class="sd">        :param int T: Positive integer that controls the number of MCMC samples that are</span>
 <span class="sd">            generated (i.e. after burn-in/adaptation).</span>
