@@ -1,3 +1,13 @@
+"""
+This script takes SARS-CoV-2 data from GISAID and pre-processed by the PyR0 pipeline at
+
+https://github.com/broadinstitute/pyro-cov
+
+and computes the allele-frequency space quantities that are required to run BVAS.
+It also estimates the effective population size. This script expects to be run on a machine with a GPU.
+In order to successfully run this script you must first run the PyR0 pipeline.
+"""
+
 import argparse
 from collections import defaultdict
 
@@ -163,8 +173,7 @@ def main(args):
     lineage_id_inv = data['lineage_id_inv']
     clade_id_to_lineage_id = data['clade_id_to_lineage_id']
     pango_idx = [lineage_id_inv[clade_id_to_lineage_id[c]] for c in range(clade_id_to_lineage_id.size(0))]
-    assert len(lineage_id_inv) == 1544
-    assert clade_id_to_lineage_id.size(0) == len(pango_idx) == 3000
+    assert clade_id_to_lineage_id.size(0) == len(pango_idx)
 
     Y, Gamma = compute_y_gamma(counts.transpose(0, 1), features, locations, args, phi=phi)
 

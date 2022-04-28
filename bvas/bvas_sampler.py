@@ -157,7 +157,7 @@ class BVASSampler(MCMCSampler):
             sample.beta = self.Y.new_zeros(self.A)
 
         if self.genotype_matrix is not None:
-            sample.growth_rate = self.genotype_matrix @ sample.beta
+            sample.growth_rate = 1.0 + self.genotype_matrix @ sample.beta
 
         if num_active > 1:
             Gamma_off_diagonal = leave_one_out_off_diagonal(Gamma_active)  # I I-1
