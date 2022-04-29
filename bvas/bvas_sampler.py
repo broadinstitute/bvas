@@ -40,7 +40,8 @@ class BVASSampler(MCMCSampler):
         alleles in the posterior can vary significantly from prior expectations, since the posterior is in
         effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
-    :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.
+    :param float nu_eff_multiplier: Additional factor by which to multiply the effective population size, i.e. on top
+        of whatever was done when computing `Y` and `Gamma`. Defaults to 1.0.
     :param float explore: This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
         For expert users only.
     :param float xi_target: This hyperparameter controls how often :math:`h` MCMC updates are made if :math:`h`
@@ -51,7 +52,8 @@ class BVASSampler(MCMCSampler):
         Defaults to None.
     """
     def __init__(self, Y, Gamma,
-                 S=5, tau=100.0, nu_eff=1.0, explore=10.0, xi_target=0.2,
+                 S=5, tau=100.0, nu_eff_multiplier=1.0,
+                 explore=10.0, xi_target=0.2,
                  genotype_matrix=None):
 
         assert Y.ndim == 1 and Gamma.ndim == 2
@@ -65,7 +67,7 @@ class BVASSampler(MCMCSampler):
         self.dtype = Y.dtype
 
         self.tau = tau
-        self.nu_eff = nu_eff
+        self.nu_eff_multiplier = nu_eff_multiplier
         self.genotype_matrix = genotype_matrix
 
         self.uniform_dist = Uniform(0.0, Y.new_ones(1)[0])
@@ -94,7 +96,7 @@ class BVASSampler(MCMCSampler):
 
         self.log_h_ratio = math.log(self.h) - math.log(1.0 - self.h)
         self.explore = explore / self.A
-        self.epsilon = 1.0e-18
+        self.epsilon = 1.0e3 * torch.finfo(Y.dtype).tiny
 
     def initialize_sample(self, seed=None):
         if seed is not None:
@@ -115,6 +117,7 @@ class BVASSampler(MCMCSampler):
         sample = self._compute_probs(sample)
         return sample
 
+    # compute p(gamma_a | gamma_{-a})
     def _compute_add_prob(self, sample, return_log_odds=False):
         active = sample._active
         inactive = torch.nonzero(~sample.gamma).squeeze(-1)
@@ -124,7 +127,7 @@ class BVASSampler(MCMCSampler):
             "all alleles have been selected. Are you sure you have chosen a reasonable prior? " +\
             "Are you sure there is signal in your data?"
 
-        nu = self.nu_eff
+        nu = self.nu_eff_multiplier
         Y_k = self.Y[inactive] * nu
         Gamma_k = self.Gamma_diag[inactive] * nu + self.tau
 

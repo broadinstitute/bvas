@@ -60,7 +60,7 @@ def check_gammas(sampler, A, compute_log_factor_ratio):
 def test_bvas_compute_add_log_prob(A, nu_eff, tau=0.47):
     Y, Gamma = get_nb_data(num_alleles=A, num_regions=20, num_variants=10)
 
-    sampler = BVASSampler(Y, Gamma.clone(), S=1.0, tau=tau, nu_eff=nu_eff)
+    sampler = BVASSampler(Y, Gamma.clone(), S=1.0, tau=tau, nu_eff_multiplier=nu_eff)
 
     def compute_log_factor(ind):
         precision = tau * torch.eye(len(ind))

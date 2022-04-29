@@ -5,10 +5,12 @@ In particular it can be used to create:
  - vaccine_timeseries.people_fully_vaccinated_per_hundred.csv
  - vaccine_timeseries.people_vaccinated_per_hundred.csv
 
-##################################   REQUIRED OWID DATA   ################################################
-# wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv
-# wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv
-##########################################################################################################
+These files are required if running covid_preprocessing.py with the --phi {vaccinated,fully} argument.
+
+##################################   REQUIRED OWID DATA   #########################################
+https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv
+https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv
+###################################################################################################
 """
 import argparse
 import datetime
@@ -74,6 +76,7 @@ def main(args):
                 rate = df[df.date == date].people_vaccinated_per_hundred.values
             rate = rate.item() if rate.shape == (1,) else np.nan
             rates.append(rate / 100.0)
+        # linear interpolation
         df = pd.Series(rates).interpolate(method='linear').fillna(value=0.0)
         df = df.iloc[::14]
         dfs.append(df)

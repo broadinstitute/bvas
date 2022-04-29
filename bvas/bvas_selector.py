@@ -60,7 +60,8 @@ class BVASSelector(object):
         alleles in the posterior can vary significantly from prior expectations, since the posterior is in
         effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
-    :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.
+    :param float nu_eff_multiplier: Additional factor by which to multiply the effective population size, i.e. on
+        top of whatever was done when computing `Y` and `Gamma`. Defaults to 1.0.
     :param torch.Tensor genotype_matrix: A matrix of shape `(num_variants, A)` that encodes the genotype
         of various viral variants. If included the sampler will compute variant-level growth rates
         during inference for the varaints in `genotype_matrix`.
@@ -69,7 +70,7 @@ class BVASSelector(object):
         same length as the leading dimension of `genotype_matrix`. Defaults to None.
     """
     def __init__(self, Y, Gamma, mutations, S=5.0,
-                 tau=100.0, nu_eff=1.0,
+                 tau=100.0, nu_eff_multiplier=1.0,
                  genotype_matrix=None, variant_names=None):
 
         if Y.ndim != 1 or Gamma.ndim != 2:
@@ -95,7 +96,7 @@ class BVASSelector(object):
         self.variant_names = variant_names
 
         self.sampler = BVASSampler(Y, Gamma,
-                                   nu_eff=nu_eff, S=S, tau=tau,
+                                   nu_eff_multiplier=nu_eff_multiplier, S=S, tau=tau,
                                    explore=10,
                                    genotype_matrix=genotype_matrix)
 
