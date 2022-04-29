@@ -130,7 +130,8 @@
 <span class="sd">        alleles in the posterior can vary significantly from prior expectations, since the posterior is in</span>
 <span class="sd">        effect a compromise between the prior and the observed data.</span>
 <span class="sd">    :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.</span>
-<span class="sd">    :param float nu_eff: Additional factor by which to multiply the effective population size. Defaults to 1.0.</span>
+<span class="sd">    :param float nu_eff_multiplier: Additional factor by which to multiply the effective population size, i.e. on</span>
+<span class="sd">        top of whatever was done when computing `Y` and `Gamma`. Defaults to 1.0.</span>
 <span class="sd">    :param torch.Tensor genotype_matrix: A matrix of shape `(num_variants, A)` that encodes the genotype</span>
 <span class="sd">        of various viral variants. If included the sampler will compute variant-level growth rates</span>
 <span class="sd">        during inference for the varaints in `genotype_matrix`.</span>
@@ -139,7 +140,7 @@
 <span class="sd">        same length as the leading dimension of `genotype_matrix`. Defaults to None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
-                 <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">nu_eff</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">nu_eff_multiplier</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">genotype_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">variant_names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="n">Y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
@@ -165,7 +166,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">variant_names</span> <span class="o">=</span> <span class="n">variant_names</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">BVASSampler</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Gamma</span><span class="p">,</span>
-                                   <span class="n">nu_eff</span><span class="o">=</span><span class="n">nu_eff</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
+                                   <span class="n">nu_eff_multiplier</span><span class="o">=</span><span class="n">nu_eff_multiplier</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span>
                                    <span class="n">explore</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                    <span class="n">genotype_matrix</span><span class="o">=</span><span class="n">genotype_matrix</span><span class="p">)</span>
 
