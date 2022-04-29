@@ -23,6 +23,11 @@ class BVASSampler(MCMCSampler):
     Variable Selection. Most users will not use this class directly
     and will instead use :class:`BVASSelector`.
 
+    Note that computations will be done using the `device` and `dtype` of the provided
+    `torch.Tensor`s, i.e. `Y` and `Gamma.` If you would like computations to be done
+    with a GPU make sure that these tensors are on the GPU. We recommend doing all
+    computations in 64-bit precision, i.e. `Y.dtype == Gamma.dtype == torch.float64`.
+
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
         increments for each allele and where `A` is the number of alleles.
     :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
