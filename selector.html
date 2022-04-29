@@ -89,6 +89,15 @@ inference.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">stats</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Note that computations will be done using the <cite>device</cite> and <cite>dtype</cite> of the provided
+<cite>torch.Tensor`s, i.e. `Y</cite> and <cite>Gamma.</cite> If you would like computations to be done
+with a GPU make sure that these tensors are on the GPU. We recommend doing all
+computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.float64</cite>.</p>
+<p>GPU usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">selector</span> <span class="o">=</span> <span class="n">BVASSelector</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">Gamma</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">double</span><span class="p">(),</span> <span class="n">mutations</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">T_burnin</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

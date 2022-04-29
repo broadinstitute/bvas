@@ -107,6 +107,16 @@
 <span class="sd">        print(selector.growth_rates)</span>
 <span class="sd">        print(selector.stats)</span>
 
+<span class="sd">    Note that computations will be done using the `device` and `dtype` of the provided</span>
+<span class="sd">    `torch.Tensor`s, i.e. `Y` and `Gamma.` If you would like computations to be done</span>
+<span class="sd">    with a GPU make sure that these tensors are on the GPU. We recommend doing all</span>
+<span class="sd">    computations in 64-bit precision, i.e. `Y.dtype == Gamma.dtype == torch.float64`.</span>
+
+<span class="sd">    GPU usage::</span>
+
+<span class="sd">        selector = BVASSelector(Y.cuda().double(), Gamma.cuda().double(), mutations, S=10.0, tau=100.0)</span>
+<span class="sd">        selector.run(T=2000, T_burnin=1000)</span>
+
 <span class="sd">    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency</span>
 <span class="sd">        increments for each allele and where `A` is the number of alleles.</span>
 <span class="sd">    :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about</span>
