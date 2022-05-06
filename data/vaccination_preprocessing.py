@@ -30,11 +30,11 @@ def main(args):
         data = pd.read_csv('vaccinations.csv')  # country-level data
         usdata = pd.read_csv('us_state_vaccinations.csv')  # us state-level data
     except Exception as e:
+        print("ERROR:\n", e)
         print("Are you sure you have downloaded vaccinations.csv and us_state_vaccinations.csv?\n\n" +
               "wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv\n" +
               "wget https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/" +
               "us_state_vaccinations.csv\n")
-        print(e)
         sys.exit()
 
     def date_range(num_days, START_DATE="2019-12-01"):
@@ -96,7 +96,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Parse vaccine data')
-    parser.add_argument('--status', type=str, default='vaccinated', choices=['vaccinated', 'fully'])
+    parser.add_argument('--status', type=str, default='fully', choices=['vaccinated', 'fully'])
     args = parser.parse_args()
 
     main(args)
