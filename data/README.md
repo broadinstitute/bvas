@@ -5,3 +5,5 @@ This directory contains the following files:
  - [S_gene.pt.gz](S_gene.pt.gz): sample S gene data that is used in the S gene demo in the notebooks directory 
  - [vaccination_preprocessing.py](vaccination_preprocessing.py): script for pre-processing vaccination data from OWID
  - [covid_preprocessing.py](covid_preprocessing.py): script for pre-processing SARS-CoV-2 data so that it can be ingested by BVAS 
+ - [vaccine_timeseries.people_fully_vaccinated_per_hundred.csv](vaccine_timeseries.people_fully_vaccinated_per_hundred.csv): vaccination rate data created by covid_preprocessing.py
+ - [vaccine_timeseries.people_vaccinated_per_hundred.csv](vaccine_timeseries.people_vaccinated_per_hundred.csv): vaccination rate data created by covid_preprocessing.py
