@@ -4,7 +4,7 @@
 
 # BVAS: Bayesian Viral Allele Selection 
 
-Welcome to the Github repository for *Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*.
+Welcome to the GitHub repository for [*Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*](https://www.biorxiv.org/content/10.1101/2022.05.07.490748v1).
 
 
 ## Requirements

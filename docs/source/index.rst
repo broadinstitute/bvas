@@ -6,7 +6,8 @@ BVAS Documentation
 This is the documentation for BVAS, a package for inferring selection effects
 from genomic surveillance data using Bayesian methods, in particular 
 Bayesian Viral Allele Selection.
-Please see the `GitHub repo <https://github.com/broadinstitute/bvas>`__ for more details.
+Please see the `pre-print <https://www.biorxiv.org/content/10.1101/2022.05.07.490748v1>`__
+and the `GitHub repo <https://github.com/broadinstitute/bvas>`__ for more details.
 
 Requirements
 -------------
