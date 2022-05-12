@@ -28,6 +28,14 @@ class BVASSampler(MCMCSampler):
     with a GPU make sure that these tensors are on the GPU. We recommend doing all
     computations in 64-bit precision, i.e. `Y.dtype == Gamma.dtype == torch.float64`.
 
+    The inputs `Y` and `Gamma` are defined in terms of region-specific allele frequencies
+    :math:`{\mathbf x}_r(t)` and region-specific effective population sizes :math:`\nu_r` as follows.
+
+    .. math::
+
+        {\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)
+        {\mathbf y}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1}^{T-1} \by_r(t)
+
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
         increments for each allele and where `A` is the number of alleles.
     :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
