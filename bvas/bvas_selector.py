@@ -52,15 +52,15 @@ class BVASSelector(object):
 
     .. math::
 
-        &{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)
+        &{\mathbf y}_r(t) = {\mathbf x}_r(t + 1) - {\mathbf x}_r(t)
 
-        &\bar{\mathbf{Y}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)
+        &\bar{\mathbf{Y}}^\nu \equiv \sum_r \nu_r \sum_t {\mathbf y}_r(t)
 
-        &{\mathbf \Lambda}_{ab}(t) = {\mathbf x}_{ab}(t) - {\mathbf x}_a(t) {\mathbf x}_b(t)
+        &\Lambda_{r,ab}(t) = x_{r,ab}(t) - x_{r,a}(t) x_{r,b}(t)
 
-        &\bar{\mathbf{\Lambda}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)
+        &\bar{\mathbf{\Lambda}}^\nu \equiv \sum_r \nu_r \sum_t {\mathbf \Lambda}_r(t)
 
-    where :math:`{\mathbf x}_{ab}(t)` denote pairwise allele frequencies.
+    where :math:`x_{r,ab}(t)` denote pairwise allele frequencies in region :math:`r`.
 
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
         increments for each allele and where `A` is the number of alleles.
