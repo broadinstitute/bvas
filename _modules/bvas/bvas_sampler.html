@@ -103,15 +103,15 @@
 
 <span class="sd">    .. math::</span>
 
-<span class="sd">        &amp;{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)</span>
+<span class="sd">        &amp;{\mathbf y}_r(t) = {\mathbf x}_r(t + 1) - {\mathbf x}_r(t)</span>
 
-<span class="sd">        &amp;\bar{\mathbf{Y}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)</span>
+<span class="sd">        &amp;\bar{\mathbf{Y}}^\nu \equiv \sum_r \nu_r \sum_t {\mathbf y}_r(t)</span>
 
-<span class="sd">        &amp;{\mathbf \Lambda}_{ab}(t) = {\mathbf x}_{ab}(t) - {\mathbf x}_a(t) {\mathbf x}_b(t)</span>
+<span class="sd">        &amp;\Lambda_{r,ab}(t) = x_{r,ab}(t) - x_{r,a}(t) x_{r,b}(t)</span>
 
-<span class="sd">        &amp;\bar{\mathbf{\Lambda}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)</span>
+<span class="sd">        &amp;\bar{\mathbf{\Lambda}}^\nu \equiv \sum_r \nu_r \sum_t {\mathbf \Lambda}_r(t)</span>
 
-<span class="sd">    where :math:`{\mathbf x}_{ab}(t)` denote pairwise allele frequencies.</span>
+<span class="sd">    where :math:`x_{r,ab}(t)` denote pairwise allele frequencies in region :math:`r`.</span>
 
 <span class="sd">    :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency</span>
 <span class="sd">        increments for each allele and where `A` is the number of alleles.</span>
