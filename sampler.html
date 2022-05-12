@@ -88,8 +88,7 @@ computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.flo
 <p>The inputs <cite>Y</cite> and <cite>Gamma</cite> are defined in terms of region-specific allele frequencies
 <span class="math notranslate nohighlight">\({\mathbf x}_r(t)\)</span> and region-specific effective population sizes <span class="math notranslate nohighlight">\(\nu_r\)</span> as follows.</p>
 <div class="math notranslate nohighlight">
-\[{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)
-{\mathbf y}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1}^{T-1} \by_r(t)\]</div>
+\[ \begin{align}\begin{aligned}&amp;{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)\\&amp;{\mathbf \bar Y}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)\\&amp;{\mathbf \Lambda}_{ab}(t) = {\mathbf x}_{ab}(t) - {\mathbf x}_a(t) {\mathbf x}_b(t)\\&amp;{\mathbf \Lambda}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)\end{aligned}\end{align} \]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
