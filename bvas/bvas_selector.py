@@ -47,6 +47,21 @@ class BVASSelector(object):
         selector = BVASSelector(Y.cuda().double(), Gamma.cuda().double(), mutations, S=10.0, tau=100.0)
         selector.run(T=2000, T_burnin=1000)
 
+    The inputs `Y` and `Gamma` are defined in terms of region-specific allele frequencies
+    :math:`{\mathbf x}_r(t)` and region-specific effective population sizes :math:`\nu_r` as follows.
+
+    .. math::
+
+        &{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)
+
+        &\bar{\mathbf{Y}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)
+
+        &{\mathbf \Lambda}_{ab}(t) = {\mathbf x}_{ab}(t) - {\mathbf x}_a(t) {\mathbf x}_b(t)
+
+        &\bar{\mathbf{\Lambda}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)
+
+    where :math:`{\mathbf x}_{ab}(t)` denote pairwise allele frequencies.
+
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
         increments for each allele and where `A` is the number of alleles.
     :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
