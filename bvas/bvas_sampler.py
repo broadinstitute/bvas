@@ -35,11 +35,13 @@ class BVASSampler(MCMCSampler):
 
         &{\mathbf y}(t) = {\mathbf x}(t + 1) - {\mathbf x}(t)
 
-        &{\mathbf \widebar{Y}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)
+        &{\mathbf \bar{Y}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf y}_r(t)
 
         &{\mathbf \Lambda}_{ab}(t) = {\mathbf x}_{ab}(t) - {\mathbf x}_a(t) {\mathbf x}_b(t)
 
-        &{\mathbf \widebar{\Lambda}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)
+        &{\mathbf \bar{\Lambda}}^\nu \equiv \sum_{r=1} \nu_r \sum_{t=1} {\mathbf \Lambda}_r(t)
+
+    where :math:`{\mathbf x}_{ab}(t)` denote pairwise allele frequencies.
 
     :param torch.Tensor Y: A vector of shape `(A,)` that encodes integrated alelle frequency
         increments for each allele and where `A` is the number of alleles.
