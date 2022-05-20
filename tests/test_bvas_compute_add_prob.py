@@ -57,10 +57,12 @@ def check_gammas(sampler, A, compute_log_factor_ratio):
 
 @pytest.mark.parametrize("A", [4, 5, 6])
 @pytest.mark.parametrize("nu_eff", [0.71, 1.93])
-def test_bvas_compute_add_log_prob(A, nu_eff, tau=0.47):
+@pytest.mark.parametrize("variable_h", [True, False])
+def test_bvas_compute_add_log_prob(A, nu_eff, variable_h, tau=0.47):
     Y, Gamma = get_nb_data(num_alleles=A, num_regions=20, num_variants=10)
 
-    sampler = BVASSampler(Y, Gamma.clone(), S=1.0, tau=tau, nu_eff_multiplier=nu_eff)
+    S = (torch.randn(A) / 20).exp().double() / A if variable_h else 1.0
+    sampler = BVASSampler(Y, Gamma.clone(), S=S, tau=tau, nu_eff_multiplier=nu_eff)
 
     def compute_log_factor(ind):
         precision = tau * torch.eye(len(ind))
@@ -70,6 +72,9 @@ def test_bvas_compute_add_log_prob(A, nu_eff, tau=0.47):
         return 0.5 * (nu_eff ** 2) * YFY - 0.5 * Gamma_scaled.logdet()
 
     def compute_log_factor_ratio(ind1, ind0):
-        return compute_log_factor(ind1) - compute_log_factor(ind0) + sampler.log_h_ratio + 0.5 * math.log(tau)
+        added_idx = list(set(ind1) - set(ind0))[0]
+        log_h_ratio = sampler.log_h_ratio[added_idx] if isinstance(sampler.log_h_ratio, torch.Tensor) \
+            else sampler.log_h_ratio
+        return compute_log_factor(ind1) - compute_log_factor(ind0) + log_h_ratio + 0.5 * math.log(tau)
 
     check_gammas(sampler, A, compute_log_factor_ratio)

@@ -68,12 +68,14 @@ class BVASSelector(object):
         second moments of allele frequencies.
     :param list mutations: A list of strings of length `A` that encodes the names of the `A` alleles in `Y`.
     :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
-        If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
-        variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
-        Note that for a given choice of `alpha` and `beta` the expected number of alleles to include in the model
-        a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.  Also note that the mean number of
-        alleles in the posterior can vary significantly from prior expectations, since the posterior is in
-        effect a compromise between the prior and the observed data.
+        To specify allele-level prior inclusion probabilities provide a A-dimensional `torch.Tensor` of
+        the form `(h_1, ..., h_A)`. If a tuple of positive floats `(alpha, beta)` is provided, the a priori
+        inclusion probability is a latent variable governed by the corresponding Beta prior so that the sparsity
+        level is inferred from the data. Note that for a given choice of `alpha` and `beta` the expected number
+        of alleles to include in the model a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.
+        We caution that this approach may be a poor choice for very noisy genomic surveillance data.
+        Also note that the mean number of covariates in the posterior can vary significantly from prior
+        expectations, since the posterior is in effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
     :param float nu_eff_multiplier: Additional factor by which to multiply the effective population size, i.e. on
         top of whatever was done when computing `Y` and `Gamma`. Defaults to 1.0.

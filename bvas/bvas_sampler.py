@@ -48,12 +48,14 @@ class BVASSampler(MCMCSampler):
     :param torch.Tensor Gamma: A matrix of shape `(A, A)` that encodes information about
         second moments of allele frequencies.
     :param S: Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
-        If a tuple of positive floats `(alpha, beta)` is provided, the a priori inclusion probability is a latent
-        variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
-        Note that for a given choice of `alpha` and `beta` the expected number of alleles to include in the model
-        a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.  Also note that the mean number of
-        alleles in the posterior can vary significantly from prior expectations, since the posterior is in
-        effect a compromise between the prior and the observed data.
+        To specify allele-level prior inclusion probabilities provide a A-dimensional `torch.Tensor` of
+        the form `(h_1, ..., h_A)`. If a tuple of positive floats `(alpha, beta)` is provided, the a priori
+        inclusion probability is a latent variable governed by the corresponding Beta prior so that the sparsity
+        level is inferred from the data. Note that for a given choice of `alpha` and `beta` the expected number
+        of alleles to include in the model a priori is given by :math:`\frac{\alpha}{\alpha + \beta} \times A`.
+        We caution that this approach may be a poor choice for very noisy genomic surveillance data.
+        Also note that the mean number of covariates in the posterior can vary significantly from prior
+        expectations, since the posterior is in effect a compromise between the prior and the observed data.
     :param float tau: Controls the precision of the coefficients in the prior. Defaults to 100.0.
     :param float nu_eff_multiplier: Additional factor by which to multiply the effective population size, i.e. on top
         of whatever was done when computing `Y` and `Gamma`. Defaults to 1.0.
@@ -87,12 +89,20 @@ class BVASSampler(MCMCSampler):
 
         self.uniform_dist = Uniform(0.0, Y.new_ones(1)[0])
 
-        if not isinstance(S, tuple):
+        S = S if not isinstance(S, int) else float(S)
+        if isinstance(S, float):
             if S >= self.A or S <= 0:
-                raise ValueError("S must satisfy 0 < S < A or must be a tuple.")
-        else:
+                raise ValueError("S must satisfy 0 < S < A or must be a tuple or tensor.")
+        elif isinstance(S, tuple):
             if len(S) != 2 or not isinstance(S[0], float) or not isinstance(S[1], float) or S[0] <= 0.0 or S[1] <= 0.0:
                 raise ValueError("If S is a tuple it must be a tuple of two positive floats (alpha, beta).")
+        elif isinstance(S, torch.Tensor):
+            if S.shape != (self.A,) or (S >= 1.0).any().item() or (S <= 0.0).any().item():
+                raise ValueError("If S is a tensor it must be A-dimensional and all elements must be strictly" +
+                                 " contained in (0, 1).")
+        else:
+            raise ValueError("S must be a float, tuple or tensor.")
+
         if explore <= 0.0:
             raise ValueError("explore must satisfy explore > 0.0")
         if xi_target <= 0.0 or xi_target >= 1.0:
@@ -100,16 +110,21 @@ class BVASSampler(MCMCSampler):
 
         self.Gamma_diag = self.Gamma.diagonal()
 
-        if not isinstance(S, tuple):
+        if isinstance(S, float):
             self.h = S / self.A
             self.xi = torch.tensor([0.0], device=Y.device)
-        else:
+            self.log_h_ratio = math.log(self.h) - math.log(1.0 - self.h)
+        elif isinstance(S, tuple):
             self.h_alpha, self.h_beta = S
             self.h = self.h_alpha / (self.h_alpha + self.h_beta)
             self.xi = torch.tensor([5.0], device=Y.device)
             self.xi_target = xi_target
+            self.log_h_ratio = math.log(self.h) - math.log(1.0 - self.h)
+        else:
+            self.h = S
+            self.xi = torch.tensor([0.0], device=Y.device)
+            self.log_h_ratio = S.log() - torch.log1p(-S)
 
-        self.log_h_ratio = math.log(self.h) - math.log(1.0 - self.h)
         self.explore = explore / self.A
         self.epsilon = 1.0e3 * torch.finfo(Y.dtype).tiny
 
@@ -207,8 +222,12 @@ class BVASSampler(MCMCSampler):
             Yt_active_loo_sq = 0.0
             log_det_active = torch.tensor(0.0, device=self.device, dtype=self.dtype)
 
-        log_odds_inactive = 0.5 * W_k_sq + log_det_inactive + sample._log_h_ratio
-        log_odds_active = 0.5 * (Yt_active_sq - Yt_active_loo_sq) + log_det_active + sample._log_h_ratio
+        log_h_ratio_inactive = sample._log_h_ratio[inactive] if isinstance(self.h, torch.Tensor) \
+            else sample._log_h_ratio
+        log_h_ratio_active = sample._log_h_ratio[active] if isinstance(self.h, torch.Tensor) else sample._log_h_ratio
+
+        log_odds_inactive = 0.5 * W_k_sq + log_det_inactive + log_h_ratio_inactive
+        log_odds_active = 0.5 * (Yt_active_sq - Yt_active_loo_sq) + log_det_active + log_h_ratio_active
 
         log_odds = self.Y.new_zeros(self.A)
         log_odds[inactive] = log_odds_inactive
