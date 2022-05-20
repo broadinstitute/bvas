@@ -106,22 +106,24 @@ computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.flo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+git2881e0e ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+git2881e0e ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
 <li><p><strong>S</strong> – Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
-If a tuple of positive floats <cite>(alpha, beta)</cite> is provided, the a priori inclusion probability is a latent
-variable governed by the corresponding Beta prior so that the sparsity level is inferred from the data.
-Note that for a given choice of <cite>alpha</cite> and <cite>beta</cite> the expected number of alleles to include in the model
-a priori is given by <span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta} \times A\)</span>.  Also note that the mean number of
-alleles in the posterior can vary significantly from prior expectations, since the posterior is in
-effect a compromise between the prior and the observed data.</p></li>
+To specify allele-level prior inclusion probabilities provide a A-dimensional <cite>torch.Tensor</cite> of
+the form <cite>(h_1, …, h_A)</cite>. If a tuple of positive floats <cite>(alpha, beta)</cite> is provided, the a priori
+inclusion probability is a latent variable governed by the corresponding Beta prior so that the sparsity
+level is inferred from the data. Note that for a given choice of <cite>alpha</cite> and <cite>beta</cite> the expected number
+of alleles to include in the model a priori is given by <span class="math notranslate nohighlight">\(\frac{\alpha}{\alpha + \beta} \times A\)</span>.
+We caution that this approach may be a poor choice for very noisy genomic surveillance data.
+Also note that the mean number of covariates in the posterior can vary significantly from prior
+expectations, since the posterior is in effect a compromise between the prior and the observed data.</p></li>
 <li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
 <li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on
 top of whatever was done when computing <cite>Y</cite> and <cite>Gamma</cite>. Defaults to 1.0.</p></li>
-<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+git2881e0e ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
+<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates
 during inference for the varaints in <cite>genotype_matrix</cite>.
 Defaults to None. If not None, user must also provide <cite>variant_names</cite>.</p></li>
