@@ -37,7 +37,8 @@ class SimpleSampleContainer(object):
 
     @cached_property
     def beta_std(self):
-        return np.sqrt(np.dot(np.square(self.samples.beta.T), self.weights) - np.square(self.beta))
+        return np.sqrt(np.clip(np.dot(np.square(self.samples.beta.T), self.weights) - np.square(self.beta),
+                               a_min=0.0, a_max=None))
 
     @cached_property
     def growth_rate(self):
@@ -45,7 +46,8 @@ class SimpleSampleContainer(object):
 
     @cached_property
     def growth_rate_std(self):
-        return np.sqrt(np.dot(np.square(self.samples.growth_rate.T), self.weights) - np.square(self.growth_rate))
+        return np.sqrt(np.clip(np.dot(np.square(self.samples.growth_rate.T), self.weights)
+                       - np.square(self.growth_rate), a_min=0.0, a_max=None))
 
     @cached_property
     def log_nu(self):
@@ -161,7 +163,7 @@ class StreamingSampleContainer(object):
 
     @cached_property
     def beta_std(self):
-        return np.sqrt(self._normalizer * self._beta_sq - np.square(self.beta))
+        return np.sqrt(np.clip(self._normalizer * self._beta_sq - np.square(self.beta), a_min=0.0, a_max=None))
 
     @cached_property
     def growth_rate(self):
@@ -169,7 +171,8 @@ class StreamingSampleContainer(object):
 
     @cached_property
     def growth_rate_std(self):
-        return np.sqrt(self._normalizer * self._growth_rate_sq - np.square(self.growth_rate))
+        return np.sqrt(np.clip(self._normalizer * self._growth_rate_sq - np.square(self.growth_rate),
+                               a_min=0.0, a_max=None))
 
     @cached_property
     def log_nu(self):
