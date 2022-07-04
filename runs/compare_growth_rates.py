@@ -19,7 +19,7 @@ def run(current, baseline, base_lineage, base_prob):
     baseline = norm.isf(1.0 - base_prob, loc=growth_rate_mean, scale=growth_rate_std)
     print("Growth rate for {} at probability of {:.3f} is {:.3f}".format(base_lineage, base_prob, baseline))
 
-    exceeds_prob = norm.sf(baseline, loc=df_current['GrowthRate'].values, scale=df_current['GrowthRateStd'].values)
+    exceeds_prob = norm.sf(baseline, loc=df_current['GrowthRate'].values, scale=df_current['GrowthRateStd'].values + 1.0e-24)
     df_current['ExceedsProb'] = exceeds_prob
 
     print("Minimum exceeds probability: {:.3e}".format(exceeds_prob.min()))
@@ -30,7 +30,7 @@ def run(current, baseline, base_lineage, base_prob):
         print("# of lineages with an exceed probability of {:.2f} or higher: {}".format(thresh, num))
 
     print("\nLineages with an exceed probability of 0.9 or higher:")
-    print(df_current['Variant Name'].values[exceeds_prob > 0.9])
+    print(set(df_current['Variant Name'].values[exceeds_prob > 0.9]))
 
     df_current.to_csv('annotated.' + current)
 
