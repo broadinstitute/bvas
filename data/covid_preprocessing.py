@@ -29,7 +29,7 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
 
     Gamma = X.new_zeros(num_alleles, num_alleles)
     Y = X.new_zeros(num_alleles)
-    nu_effs = []
+    nu_effs, locs = [], []
 
     N_kept = 0
     timeseries_lengths = []
@@ -51,11 +51,19 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
         nu_eff_r = (numerator / denominator).mean().item()
         nu_effs.append(nu_eff_r)
         loc_r = ' / '.join(locations[r].split(' / ')[1:])
+        locs.append(loc_r)
 
         if verbose:
             print("[{}] nu_eff_r: {:.1f}".format(loc_r, nu_eff_r))
 
     nu_eff_global = np.median(nu_effs)
+
+    if verbose:
+        idx_min = np.argmin(np.array(nu_effs))
+        idx_max = np.argmax(np.array(nu_effs))
+        print("Smallest estimated nu_eff is in {}, namely {:.1f}".format(locs[idx_min], nu_effs[idx_min]))
+        print("Largest estimated nu_eff is in {}, namely {:.1f}".format(locs[idx_max], nu_effs[idx_max]))
+        print("Median nu_eff across regions: {:.2f}".format(nu_eff_global))
 
     for r in range(num_regions):
         N_sum_r = N_sum[r]
