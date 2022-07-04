@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -72,7 +73,7 @@
            <div itemprop="articleBody">
              
   <section id="bvas-selector">
-<h1>BVAS Selector<a class="headerlink" href="#bvas-selector" title="Permalink to this headline">¶</a></h1>
+<h1>BVAS Selector<a class="headerlink" href="#bvas-selector" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="bvas.BVASSelector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bvas.</span></span><span class="sig-name descname"><span class="pre">BVASSelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nu_eff_multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genotype_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bvas/bvas_selector.html#BVASSelector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bvas.BVASSelector" title="Permalink to this definition">¶</a></dt>
@@ -106,9 +107,9 @@ computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.flo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+gitcaa6ef1 ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+gitcaa6ef1 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
 <li><p><strong>S</strong> – Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
@@ -123,7 +124,7 @@ expectations, since the posterior is in effect a compromise between the prior an
 <li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
 <li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on
 top of whatever was done when computing <cite>Y</cite> and <cite>Gamma</cite>. Defaults to 1.0.</p></li>
-<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.12.0a0+gite69d13b ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
+<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+gitcaa6ef1 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates
 during inference for the varaints in <cite>genotype_matrix</cite>.
 Defaults to None. If not None, user must also provide <cite>variant_names</cite>.</p></li>
@@ -138,7 +139,7 @@ same length as the leading dimension of <cite>genotype_matrix</cite>. Defaults t
 <dd><p>Run MCMC inference for <span class="math notranslate nohighlight">\(T + T_{\rm burn-in}\)</span> iterations.
 The leading <span class="math notranslate nohighlight">\(T_{\rm burn-in}\)</span> iterations are discarded. After completion the results
 of the MCMC run can be accessed in the <cite>summary</cite>, <cite>growth_rates</cite>, and <cite>stats</cite> attributes.</p>
-<p>The <cite>summary</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> contains six columns.
+<p>The <cite>summary</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> contains six columns.
 The first column lists the Posterior Inclusion Probability (PIP) for each covariate.
 The second column lists the posterior mean of the coefficient
 that corresponds to each covariate. The third column lists the posterior standard deviation for
@@ -147,7 +148,7 @@ respectively, with the difference that the fourth and fifth columns report condi
 statistics. For example, the fourth column reports the posterior mean of each coefficient
 conditioned on the corresponding covariate being included in the model. The sixth column
 is the PIP rank.</p>
-<p>The <cite>growth_rates</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> reports estimated relative growth rates for
+<p>The <cite>growth_rates</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.4.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> reports estimated relative growth rates for
 each variant in <cite>genotype_matrix</cite> if the latter was provided. Note that growth rates are
 relative to the wild-type variant with all-zeros genotype.</p>
 <dl class="field-list simple">
