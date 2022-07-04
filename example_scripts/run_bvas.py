@@ -3,6 +3,7 @@ In this example script we show how to use BVASSelector to analyze data generated
 Note that we recommend running BVASSelector on GPU unless the number of alleles is moderate.
 """
 import argparse
+
 import torch
 
 from bvas import BVASSelector
