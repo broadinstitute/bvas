@@ -14,6 +14,7 @@ def run(data, inference, out):
     assert inf.values.shape[0] == df.values.shape[0]
     df['GrowthRateMean'] = inf['GrowthRate']
     df['GrowthRateStd'] = inf['GrowthRateStd']
+    df['ExceedsProb'] = inf['ExceedsProb']
     assert (np.array(data['pango_idx']) == inf['Variant Name']).sum().item() == df.values.shape[0]
 
     print(df)
