@@ -189,12 +189,12 @@ def main(args):
     for k, v in data['clade_to_lineage'].items():
         lineage_to_clade[v].append(k)
 
-    data = {'Gamma': Gamma,
-            'Y': Y,
+    data = {'Gamma': Gamma.cpu(),
+            'Y': Y.cpu(),
             'num_alleles': Y.size(-1),
             'num_regions': counts.size(1),
             'mutations': mutations,
-            'genotype': features,
+            'genotype': features.cpu(),
             'pango_idx': pango_idx}
 
     f = 'processed_data.mts{}k.mbs{}.{}.{}.{}.pt'
