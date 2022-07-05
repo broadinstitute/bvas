@@ -67,6 +67,8 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
 
     for r in range(num_regions):
         N_sum_r = N_sum[r]
+        nu_eff_r = nu_effs[r]
+
         densely_sampled = N_sum_r >= args.min_biweekly_samples
         dense_consecutive = get_longest_ones_index(densely_sampled.data.cpu().numpy())
         dense_consecutive = torch.from_numpy(dense_consecutive).to(X.device)
