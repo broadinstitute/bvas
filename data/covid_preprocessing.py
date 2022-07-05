@@ -56,7 +56,8 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
         if verbose:
             print("[{}] nu_eff_r: {:.1f}".format(loc_r, nu_eff_r))
 
-    nu_eff_global = np.median(nu_effs)
+    nu_eff_global = np.median(nu_effs).item()
+    nu_eff_min = np.min(nu_effs).item()
 
     if verbose:
         idx_min = np.argmin(np.array(nu_effs))
@@ -67,6 +68,8 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
 
     for r in range(num_regions):
         N_sum_r = N_sum[r]
+        nu_eff_r = nu_effs[r]
+
         densely_sampled = N_sum_r >= args.min_biweekly_samples
         dense_consecutive = get_longest_ones_index(densely_sampled.data.cpu().numpy())
         dense_consecutive = torch.from_numpy(dense_consecutive).to(X.device)
@@ -92,6 +95,11 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
         elif args.strategy == 'regional':
             Gamma += nu_eff_r * Gamma_r
             Y += nu_eff_r * Y_r
+        elif args.strategy == 'buckets':
+            _nu_eff_r = nu_eff_global if nu_eff_r >= nu_eff_global else nu_eff_min
+            # print("nu_eff_r {:.3f} -> {:.3f}".format(nu_eff_r, _nu_eff_r))
+            Gamma += _nu_eff_r * Gamma_r
+            Y += _nu_eff_r * Y_r
 
     if verbose:
         print("Included a total of {} / {} genomes".format(N_kept, int(N_sum.sum().item())))
@@ -209,12 +217,13 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='simulator')
-    parser.add_argument('--filename', type=str, default='mutrans.data.single.3000.1.50.None.pt')
+    parser.add_argument('--filename', type=str, default='mutrans.data.single.10000.1.50.None.pt')
     parser.add_argument('--pyrocov-dir', type=str, default='/home/mjankowi/pyro-cov/results/')
     parser.add_argument('--min-total-samples', type=int, default=10 ** 4)
     parser.add_argument('--min-biweekly-samples', type=int, default=50)
     parser.add_argument('--phi', type=str, default='none', choices=['none', 'vaccinated', 'fully'])
-    parser.add_argument('--strategy', type=str, default='global-median', choices=['global-median', 'regional'])
+    parser.add_argument('--strategy', type=str, default='global-median',
+                        choices=['global-median', 'regional', 'buckets'])
     args = parser.parse_args()
 
     main(args)
