@@ -97,7 +97,6 @@ def _compute_y_gamma(N, genotype, locations, args, phi=None, verbose=True):
             Y += nu_eff_r * Y_r
         elif args.strategy == 'buckets':
             _nu_eff_r = nu_eff_global if nu_eff_r >= nu_eff_global else nu_eff_min
-            # print("nu_eff_r {:.3f} -> {:.3f}".format(nu_eff_r, _nu_eff_r))
             Gamma += _nu_eff_r * Gamma_r
             Y += _nu_eff_r * Y_r
 
@@ -222,7 +221,7 @@ if __name__ == '__main__':
     parser.add_argument('--min-total-samples', type=int, default=10 ** 4)
     parser.add_argument('--min-biweekly-samples', type=int, default=50)
     parser.add_argument('--phi', type=str, default='none', choices=['none', 'vaccinated', 'fully'])
-    parser.add_argument('--strategy', type=str, default='global-median',
+    parser.add_argument('--strategy', type=str, default='buckets',
                         choices=['global-median', 'regional', 'buckets'])
     args = parser.parse_args()
 
