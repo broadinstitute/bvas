@@ -9,3 +9,5 @@ Raw inference results:
  - [growth_rates_summary.csv](growth_rates_summary.csv): Inference results for lineage-level (relative) growth rates. The zeroth column reports the PANGO lineage designation. The first column reports the posterior mean of the growth rate R. The second column reports the posterior standard deviation of the growth rate R.
  - [accession_ids.txt.xz](accession_ids.txt.xz): Complete list of GISAID accession numbers of viral genomes used in our study. 
  - [selected_growth_rates.png](selected_growth_rates.png): Table of estimated growth rates, relative to Wuhan A, for a few select SARS-CoV-2 lineages. 
+
+More recent inference results are to be found in directories named after the end date of the surveillance data used in the analysis, starting with August 10th: [08.10.22](08.10.22/).
