@@ -2,7 +2,7 @@
 [![Docs](https://img.shields.io/badge/api-docs-blue)](https://broadinstitute.github.io/bvas/)
 
 
-<iframe width="50%" src="https://github.com/broadinstitute/bvas/blob/main/paper/manhattan.genome_wide.pdf">
+![](./manhattan.png)
 
 
 # BVAS: Bayesian Viral Allele Selection 
