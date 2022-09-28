@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -42,7 +43,10 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="selector.html">BVAS Selector</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">BVAS Sampler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BVAS Sampler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bvas.BVASSampler"><code class="docutils literal notranslate"><span class="pre">BVASSampler</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map.html">MAP Inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="laplace.html">Laplace Inference</a></li>
@@ -94,9 +98,9 @@ computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.flo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git64899c5 ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git64899c5 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>S</strong> – Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
 To specify allele-level prior inclusion probabilities provide a A-dimensional <cite>torch.Tensor</cite> of
@@ -114,7 +118,7 @@ of whatever was done when computing <cite>Y</cite> and <cite>Gamma</cite>. Defau
 For expert users only.</p></li>
 <li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
 is a latent variable. Defaults to 0.2. For expert users only.</p></li>
-<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git64899c5 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
+<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates
 during inference for the varaints encoded by <cite>genotype_matrix</cite>.
 Defaults to None.</p></li>
