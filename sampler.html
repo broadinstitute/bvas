@@ -65,8 +65,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>BVAS Sampler</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">BVAS Sampler</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/sampler.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -98,9 +98,9 @@ computations in 64-bit precision, i.e. <cite>Y.dtype == Gamma.dtype == torch.flo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.0.0a0+git9eccfed ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.0.0a0+git9eccfed ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>S</strong> – Controls the expected number of alleles to include in the model a priori. Defaults to 5.0.
 To specify allele-level prior inclusion probabilities provide a A-dimensional <cite>torch.Tensor</cite> of
@@ -111,14 +111,14 @@ of alleles to include in the model a priori is given by <span class="math notran
 We caution that this approach may be a poor choice for very noisy genomic surveillance data.
 Also note that the mean number of covariates in the posterior can vary significantly from prior
 expectations, since the posterior is in effect a compromise between the prior and the observed data.</p></li>
-<li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
-<li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on top
+<li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
+<li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on top
 of whatever was done when computing <cite>Y</cite> and <cite>Gamma</cite>. Defaults to 1.0.</p></li>
-<li><p><strong>explore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
+<li><p><strong>explore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
 For expert users only.</p></li>
-<li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
+<li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
 is a latent variable. Defaults to 0.2. For expert users only.</p></li>
-<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (1.13.0a0+git24a2681 ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
+<li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.0.0a0+git9eccfed ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates
 during inference for the varaints encoded by <cite>genotype_matrix</cite>.
 Defaults to None.</p></li>
