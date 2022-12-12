@@ -7,7 +7,9 @@
 
 # BVAS: Bayesian Viral Allele Selection 
 
-Welcome to the GitHub repository for [*Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*](https://www.biorxiv.org/content/10.1101/2022.05.07.490748v1).
+Welcome to the GitHub repository for [*Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1010540). The results from our main analysis are available
+in [paper](paper/). More recent inference results are also available: [08.10.22](08.10.22/) and [09.22.22](09.22.22/).
+Thanks to Benjamin Kotzen for help generating these more recent results!
 
 
 ## Requirements
@@ -44,8 +46,11 @@ The documentation is available [here](https://broadinstitute.github.io/bvas/).
 
 This repo is organized as follows:
  - [bvas](bvas/): all the core code: inference algorithms and simulations
+ - [paper](paper/): some of the figures and inference results contained in the paper 
  - [notebooks](notebooks/): Jupyter notebooks demonstrating BVAS usage
    - [basic_demo.ipynb](notebooks/basic_demo.ipynb): demo using simulated data 
    - [S_gene_demo.ipynb](notebooks/S_gene_demo.ipynb): demo using GISAID data restricted only to the SARS-CoV-2 S gene
  - [data](data/): pre-processing scripts and (some of the) data used in the analysis
+ - [docs](docs/): source code for the documentation 
+ - [example_scripts](example_scripts/): example scripts that demo BVAS usage 
  - [tests](tests/): unit tests for verifying the correctness of inference algorithms and other code
