@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MAP Inference &mdash; bvas  documentation</title>
@@ -12,9 +12,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,11 +26,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> bvas
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            bvas
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -64,7 +65,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">MAP Inference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/map.rst.txt" rel="nofollow"> View page source</a>
@@ -89,18 +90,18 @@ Brian Lee, Muhammad Saqib Sohail, Elizabeth Finney, Syed Faraz Ahmed, Ahmed Abdu
 Matthew R. McKay, John P. Barton.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.0.0a0+git9eccfed ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
+<li><p><strong>Y</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a>) – A vector of shape <cite>(A,)</cite> that encodes integrated alelle frequency
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
-<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.0.0a0+git9eccfed ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
+<li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
 <li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
 <li><p><strong>tau_reg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – A positive float <cite>tau_reg</cite> that serves as the regularizer in MAP inference
 along the lines of ridge regression. Note that this quantity is called <cite>gamma</cite> in reference [1].</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns pandas.DataFrame</dt>
+<dt class="field-even">Returns pandas.DataFrame<span class="colon">:</span></dt>
 <dd class="field-even"><p>Returns a <cite>pandas.DataFrame</cite> containing results of inference.</p>
 </dd>
 </dl>
