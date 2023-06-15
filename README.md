@@ -10,7 +10,7 @@
 Welcome to the GitHub repository for [*Inferring selection effects in SARS-CoV-2 with Bayesian Viral Allele Selection*](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1010540). The results from our main analysis are available
 in [paper](paper/). More recent inference results are also available: [08.10.22](paper/08.10.22/),
  [09.22.22](paper/09.22.22/), [05.18.23](paper/05.18.23/), and [06.15.23](paper/06.15.23/).
-Thanks to Benjamin Kotzen for help generating these more recent results!
+Thanks to Benjamin Kotzen ([@bkotzen](https://www.github.com/bkotzen)) for help generating these more recent results!
 
 
 ## Requirements
