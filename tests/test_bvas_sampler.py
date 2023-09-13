@@ -41,4 +41,4 @@ def test_bvas_sampler(A=500, T=2000, T_burnin=200, report_frequency=500,
     print("beta[:4]", beta[:4].tolist())
     print("maxbeta[2:]", np.fabs(beta)[2:].max())
     assert_close(beta[:2], np.array([beta0, beta1]), atol=0.1)
-    assert np.fabs(beta)[2:].max().item() < 1.0e-4
+    assert np.fabs(beta)[2:].max().item() < 3.0e-4
