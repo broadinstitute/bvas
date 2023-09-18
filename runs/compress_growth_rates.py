@@ -16,9 +16,11 @@ def run(filename):
         mean = means.mean()
         var = np.clip(np.square(df_pango.GrowthRateStd.values).mean() +
                       np.square(means).mean() - np.square(mean), a_min=0.0, a_max=None)
-        rates.append(np.array([pango, mean, np.sqrt(var)]))
+        rates.append( (pango, mean, np.sqrt(var)) )
 
-    df = pd.DataFrame(np.stack(rates), columns=['VariantName', 'GrowthRate', 'GrowthRateStd'])
+    df = pd.DataFrame({'VariantName':[r[0] for r in rates], 
+                       'GrowthRate':[r[1] for r in rates], 
+                       'GrowthRateStd':[r[2] for r in rates]})
     df = df.sort_values(by=['GrowthRate'], ascending=False)
     df = df.set_index('VariantName')
     df['Rank'] = 1 + np.arange(df.values.shape[0])
