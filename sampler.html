@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BVAS Sampler &mdash; bvas  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -112,12 +114,12 @@ of alleles to include in the model a priori is given by <span class="math notran
 We caution that this approach may be a poor choice for very noisy genomic surveillance data.
 Also note that the mean number of covariates in the posterior can vary significantly from prior
 expectations, since the posterior is in effect a compromise between the prior and the observed data.</p></li>
-<li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
-<li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on top
+<li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Controls the precision of the coefficients in the prior. Defaults to 100.0.</p></li>
+<li><p><strong>nu_eff_multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Additional factor by which to multiply the effective population size, i.e. on top
 of whatever was done when computing <cite>Y</cite> and <cite>Gamma</cite>. Defaults to 1.0.</p></li>
-<li><p><strong>explore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
+<li><p><strong>explore</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – This hyperparameter controls how greedy the MCMC algorithm is. Defaults to 10.0.
 For expert users only.</p></li>
-<li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
+<li><p><strong>xi_target</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – This hyperparameter controls how often <span class="math notranslate nohighlight">\(h\)</span> MCMC updates are made if <span class="math notranslate nohighlight">\(h\)</span>
 is a latent variable. Defaults to 0.2. For expert users only.</p></li>
 <li><p><strong>genotype_matrix</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(num_variants, A)</cite> that encodes the genotype
 of various viral variants. If included the sampler will compute variant-level growth rates

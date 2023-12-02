@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Laplace Inference &mdash; bvas  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -91,12 +93,12 @@ selection effects from genomic surveillance data.</p>
 increments for each allele and where <cite>A</cite> is the number of alleles.</p></li>
 <li><p><strong>Gamma</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a>) – A matrix of shape <cite>(A, A)</cite> that encodes information about
 second moments of allele frequencies.</p></li>
-<li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
-<li><p><strong>coef_scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The regularization scale of the Laplace prior. Defaults to 0.01.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Random number seed for reproducibility.</p></li>
-<li><p><strong>num_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of optimization steps to do. Defaults to 10000.</p></li>
-<li><p><strong>log_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Controls logging frequency. Defaults to 500.</p></li>
-<li><p><strong>init_lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The initial learning rate. Defaults to 0.01.</p></li>
+<li><p><strong>mutations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A list of strings of length <cite>A</cite> that encodes the names of the <cite>A</cite> alleles in <cite>Y</cite>.</p></li>
+<li><p><strong>coef_scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The regularization scale of the Laplace prior. Defaults to 0.01.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Random number seed for reproducibility.</p></li>
+<li><p><strong>num_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of optimization steps to do. Defaults to 10000.</p></li>
+<li><p><strong>log_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Controls logging frequency. Defaults to 500.</p></li>
+<li><p><strong>init_lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The initial learning rate. Defaults to 0.01.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns pandas.DataFrame<span class="colon">:</span></dt>
