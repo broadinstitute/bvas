@@ -149,7 +149,7 @@ same length as the leading dimension of <cite>genotype_matrix</cite>. Defaults t
 <dd><p>Run MCMC inference for <span class="math notranslate nohighlight">\(T + T_{\rm burn-in}\)</span> iterations.
 The leading <span class="math notranslate nohighlight">\(T_{\rm burn-in}\)</span> iterations are discarded. After completion the results
 of the MCMC run can be accessed in the <cite>summary</cite>, <cite>growth_rates</cite>, and <cite>stats</cite> attributes.</p>
-<p>The <cite>summary</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> contains six columns.
+<p>The <cite>summary</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> contains six columns.
 The first column lists the Posterior Inclusion Probability (PIP) for each covariate.
 The second column lists the posterior mean of the coefficient
 that corresponds to each covariate. The third column lists the posterior standard deviation for
@@ -158,7 +158,7 @@ respectively, with the difference that the fourth and fifth columns report condi
 statistics. For example, the fourth column reports the posterior mean of each coefficient
 conditioned on the corresponding covariate being included in the model. The sixth column
 is the PIP rank.</p>
-<p>The <cite>growth_rates</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> reports estimated relative growth rates for
+<p>The <cite>growth_rates</cite> <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.1.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> reports estimated relative growth rates for
 each variant in <cite>genotype_matrix</cite> if the latter was provided. Note that growth rates are
 relative to the wild-type variant with all-zeros genotype.</p>
 <dl class="field-list simple">
