@@ -1,5 +1,5 @@
 Number of regions: 187
-Number of viral sequences: 12012821
+Number of viral sequences: 12025864
 Effective population size estimation strategy: "two-bucket" strategy
 Number of lineage clusters L: 5000
 Expected number of non-neutral alleles a priori S: 50.0
