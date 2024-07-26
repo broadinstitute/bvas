@@ -1,0 +1,6 @@
+Number of regions: 190
+Number of viral sequences: 11624709
+Effective population size estimation strategy: "two-bucket" strategy # the remaining metadata should be the same
+Number of lineage clusters L: 5000
+Expected number of non-neutral alleles a priori S: 50.0
+Prior precision tau: 100.0
